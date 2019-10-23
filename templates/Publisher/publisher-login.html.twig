@@ -1,0 +1,11 @@
+{% extends 'login-base.html.twig' %}
+{% block loginController %}publisherLoginController{% endblock %}
+{% block loginTitle %}Publisher login{% endblock %}
+{% block signupLink %}
+    <a href="#">Don't have an account? Sing up now!</a>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/controller/publisher/publisher-login-controller.js') }}"></script>
+{% endblock %}

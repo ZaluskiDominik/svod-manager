@@ -38,9 +38,9 @@ class CustomerEntity
     private $passwordHash;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", name="account_balance")
      */
-    private $balance;
+    private $accountBalance;
 
     public function getId(): ?int
     {
@@ -95,14 +95,14 @@ class CustomerEntity
         return $this;
     }
 
-    public function getBalance(): ?string
+    public function getAccountBalance(): ?string
     {
-        return $this->balance;
+        return $this->accountBalance;
     }
 
-    public function setBalance(string $balance): self
+    public function setAccountBalance(string $accountBalance): self
     {
-        $this->balance = $balance;
+        $this->accountBalance = $accountBalance;
 
         return $this;
     }

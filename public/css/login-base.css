@@ -175,15 +175,8 @@ body {
     border-color: lime;
 }
 
-
-.errMsg {
-    color: red;
-    margin-top: 5px;
-    font-size: 12px;
-    max-width: 200px;
-}
-
 .floating-btn {
+    user-select: none;
     background: #FF4081;
     width: 60px;
     height: 60px;
@@ -209,6 +202,9 @@ body {
 }
 .floating-btn:focus, .floating-btn:active {
     outline: none;
+}
+button::-moz-focus-inner {
+    border: 0;
 }
 
 .icon-arrow {

@@ -1,0 +1,60 @@
+<form class="user-data-form" id="publisherDataForm" name="publisherDataForm" novalidate
+      ng-model="publisherDataForm" ng-controller="{{ controller }}" ng-submit="{{ submitHandler }}">
+    <div class="user-data-inputs">
+        <div class="fullname-flex">
+            <div>
+                <label for="first-name">First Name</label>
+                <input placeholder="John" name="firstName" ng-model="firstName" id="first-name" type="text"
+                       required pattern="^[^\s0-9]+$" maxlength="20">
+                <div ng-if="publisherDataForm.firstName.$touched && publisherDataForm.firstName.$invalid" class="input-err-msg">
+                    Please enter valid first name
+                </div>
+            </div>
+            <div>
+                <label for="surname">Surname</label>
+                <input placeholder="Smith" name="surname" ng-model="surname" id="surname" type="text"
+                       required pattern="^[^\s0-9]+$" maxlength="20">
+                <div ng-if="publisherDataForm.surname.$touched && publisherDataForm.surname.$invalid" class="input-err-msg">
+                    Please enter valid surname
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <label for="email">Email</label>
+            <input placeholder="example@domain.com" name="email" ng-model="email" id="email" type="email" required maxlength="100">
+            <div ng-if="publisherDataForm.email.$touched && publisherDataForm.email.$invalid" class="input-err-msg">
+                Please enter valid email address
+            </div>
+        </div>
+
+        <div>
+            <label for="password">Password</label>
+            <input id="password" name="password" ng-model="password" type="password" required maxlength="20" minlength="8">
+            <div ng-if="publisherDataForm.password.$touched && publisherDataForm.password.$invalid" class="input-err-msg">
+                Password length should be between 8 and 20 characters
+            </div>
+        </div>
+
+        <div>
+            <label for="company">Company</label>
+            <input id="company" name="company" ng-model="company" type="text" required maxlength="100">
+            <div ng-if="publisherDataForm.company.$touched && publisherDataForm.company.$invalid" class="input-err-msg">
+                Please enter your company name
+            </div>
+        </div>
+
+        <div>
+            <label for="company-website">Company website(optional)</label>
+            <input placeholder="https://mycompany.com" id="company-website" name="companyWebsite" ng-model="companyWebsite"
+                   type="text" pattern="(http://)|(https://)\S+\.\S+" maxlength="100">
+            <div ng-if="publisherDataForm.companyWebsite.$touched && publisherDataForm.companyWebsite.$invalid" class="input-err-msg">
+                Please enter valid URL
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="input-err-msg" ng-if="apiError">{% verbatim %}{{ apiError }}{% endverbatim %}</div>
+        <button class="button button-3d button-primary button-rounded button-large" type="submit">{{ submitBtnName }}</button>
+    </div>
+</form>

@@ -1,0 +1,23 @@
+.fullname-flex {
+    display: flex;
+}
+
+.fullname-flex > div:first-child {
+    margin-right: 20px;
+}
+
+.user-data-inputs > div {
+    margin-bottom: 10px;
+}
+
+form.user-data-form > div:last-child {
+    text-align: center;
+}
+
+form.user-data-form > div:last-child > div:first-child {
+    text-align: center;
+    font-size: 15px;
+    margin-bottom: 15px;
+    max-width: none;
+}
+

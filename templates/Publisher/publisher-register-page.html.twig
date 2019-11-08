@@ -1,0 +1,11 @@
+{% extends 'register-page-base.html.twig' %}
+
+{% block registerContent %}
+    {% set controller = 'publisherRegisterController' %}
+    {% include 'Publisher/publisher-data-form.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/controller/publisher/publisher-register-controller.js') }}"></script>
+{% endblock %}

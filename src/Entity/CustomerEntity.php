@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
+use App\Common\Serialization\SerializableObjectInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="customer")
  * @ORM\Entity(repositoryClass="App\Repository\CustomerEntityRepository")
  */
-class CustomerEntity
+class CustomerEntity implements SerializableObjectInterface
 {
     /**
      * @ORM\Id()
@@ -41,6 +42,34 @@ class CustomerEntity
      * @ORM\Column(type="float", name="account_balance")
      */
     private $accountBalance;
+
+    public static function fromArray(array $data): self
+    {
+        $customerEntity = (new self())
+            ->setFirstName($data['firstName'])
+            ->setSurname($data['surname'])
+            ->setEmail($data['email'])
+            ->setAccountBalance($data['accountBalance'] ?? 0);
+
+        if (isset($data['password'])) {
+            $customerEntity->setPasswordHash(password_hash($data['password'], PASSWORD_DEFAULT));
+        } else if (isset($data['passwordHash'])) {
+            $customerEntity->setPasswordHash($data['passwordHash']);
+        }
+
+        return $customerEntity;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'firstName' => $this->getFirstName(),
+            'surname' => $this->getSurname(),
+            'email' => $this->getEmail(),
+            'accountBalance' => $this->getAccountBalance(),
+            'passwordHash' => $this->getPasswordHash()
+        ];
+    }
 
     public function getId(): ?int
     {

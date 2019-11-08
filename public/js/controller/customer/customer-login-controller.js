@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module("app", []).controller("customerLoginController", function($scope, $http) {
+app.controller("customerLoginController", function($scope, $http) {
     $scope.submitLogin = function() {
         if (!login.validateForm($scope))
             return;

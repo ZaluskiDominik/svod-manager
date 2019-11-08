@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css?family=Dancing+Script&display=swap');
+
+body {
+    margin: 0;
+    height: 100vh;
+    background-color: #f8f8f8;
+}
+
+.register-form-wrapper {
+    display: inline-block;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 2px 2px 6px #333;
+    background-color: white;
+    border-radius: 6px;
+    padding: 15px 15px 25px 15px;
+    min-width: 600px;
+}
+
+.register-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin: 10px 20px 40px 20px
+}
+
+.register-heading img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+
+.register-heading h1 {
+    margin-left: 30px;
+    flex-grow: 1;
+    text-align: right;
+    font-family: 'Dancing Script', cursive;
+    font-size: 36px;
+    font-weight: 400;
+}

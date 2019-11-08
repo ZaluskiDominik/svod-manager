@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module("app", []).controller("publisherLoginController", function ($scope, $http) {
+app.controller("publisherLoginController", function ($scope, $http) {
     $scope.apiError = "";
 
     $scope.submitLogin = function() {

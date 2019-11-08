@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/register-base.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/user-data-form.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="register-form-wrapper">
+        <div class="register-heading">
+            <img alt="heading-img" src="/img/{{ imgFilename }}">
+            <h1>{{ heading }}</h1>
+        </div>
+        {% set submitBtnName = 'Register' %}
+        {% set submitHandler = 'submitRegister()' %}
+        {% block registerContent %}{% endblock %}
+    </div>
+{% endblock %}
+

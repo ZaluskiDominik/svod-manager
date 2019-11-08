@@ -1,0 +1,43 @@
+<form class="user-data-form" id="customerDataForm" name="customerDataForm" novalidate
+      ng-model="customerDataForm" ng-controller="{{ controller }}" ng-submit="{{ submitHandler }}">
+    <div class="user-data-inputs">
+        <div class="fullname-flex">
+            <div>
+                <label for="first-name">First Name</label>
+                <input placeholder="John" name="firstName" ng-model="firstName" id="first-name" type="text"
+                       required pattern="^[^\s0-9]+$" maxlength="20">
+                <div ng-if="customerDataForm.firstName.$touched && customerDataForm.firstName.$invalid" class="input-err-msg">
+                    Please enter valid first name
+                </div>
+            </div>
+            <div>
+                <label for="surname">Surname</label>
+                <input placeholder="Smith" name="surname" ng-model="surname" id="surname" type="text"
+                       required pattern="^[^\s0-9]+$" maxlength="20">
+                <div ng-if="customerDataForm.surname.$touched && customerDataForm.surname.$invalid" class="input-err-msg">
+                    Please enter valid surname
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <label for="email">Email</label>
+            <input placeholder="example@domain.com" name="email" ng-model="email" id="email" type="email" required maxlength="100">
+            <div ng-if="customerDataForm.email.$touched && customerDataForm.email.$invalid" class="input-err-msg">
+                Please enter valid email address
+            </div>
+        </div>
+
+        <div>
+            <label for="password">Password</label>
+            <input id="password" name="password" ng-model="password" type="password" required maxlength="20" minlength="8">
+            <div ng-if="customerDataForm.password.$touched && customerDataForm.password.$invalid" class="input-err-msg">
+                Password length should be between 8 and 20 characters
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="input-err-msg" ng-if="apiError">{% verbatim %}{{ apiError }}{% endverbatim %}</div>
+        <button class="button button-3d button-primary button-rounded button-large" type="submit">{{ submitBtnName }}</button>
+    </div>
+</form>

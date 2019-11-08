@@ -2,14 +2,16 @@
 
 namespace App\Entity;
 
+use App\Common\Serialization\SerializableObjectInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(name="publisher")
  * @ORM\Entity(repositoryClass="App\Repository\PublisherEntityRepository")
  */
-class PublisherEntity
+class PublisherEntity implements SerializableObjectInterface
 {
     /**
      * @ORM\Id()
@@ -57,6 +59,38 @@ class PublisherEntity
      * @ORM\OneToMany(targetEntity="App\Entity\SubscriptionEntity", mappedBy="publisher", orphanRemoval=true)
      */
     private $subscriptions;
+
+    public static function fromArray(array $data): self
+    {
+        $publisherEntity = (new self())
+            ->setFirstName($data['firstName'])
+            ->setSurname($data['surname'])
+            ->setEmail($data['email'])
+            ->setAccountBalance($data['accountBalance'] ?? 0)
+            ->setCompany($data['company'])
+            ->setCompanyWebsite($data['companyWebsite'] ?? null);
+
+        if (isset($data['password'])) {
+            $publisherEntity->setPasswordHash(password_hash($data['password'], PASSWORD_DEFAULT));
+        } else if (isset($data['passwordHash'])) {
+            $publisherEntity->setPasswordHash($data['passwordHash']);
+        }
+
+        return $publisherEntity;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'firstName' => $this->getFirstName(),
+            'surname' => $this->getSurname(),
+            'email' => $this->getEmail(),
+            'accountBalance' => $this->getAccountBalance(),
+            'passwordHash' => $this->getPasswordHash(),
+            'company' => $this->getCompany(),
+            'companyWebsite' => $this->getCompanyWebsite()
+        ];
+    }
 
     public function __construct()
     {

@@ -1,0 +1,90 @@
+.dashboard-flex {
+    display: flex;
+    height: 100vh;
+}
+
+nav {
+    height: 100%;
+    box-sizing: border-box;
+    width: 100px;
+    background-color: #272f44;
+}
+
+nav > img:first-child {
+    display: block;
+    box-sizing: content-box;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #161e33;
+    box-shadow: 0 -1px #383f55 inset;
+    padding-left: 25px;
+    padding-right: 25px;
+    width: 50px;
+    height: 50px;
+}
+
+nav > ol {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+}
+
+nav li {
+    display: block;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    line-height: 1.2;
+    font-size: 14px;
+    font-family: "Font Awesome 5 Free";
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-left: 3px solid transparent;
+    transition: background-color 0.5s, border 0.5s;
+}
+
+nav li:hover, .nav-tab-active {
+    background-color: #0a1b2b;
+    border-left: 3px solid seagreen;
+}
+
+nav li::before {
+    font-weight: 300;
+    font-size: 38px;
+}
+
+nav li::after {
+    display: block;
+}
+
+.nav-tab-profile::before {
+    content: '\f2bb';
+}
+
+.nav-tab-profile::after {
+    content: 'Profile';
+}
+
+.nav-tab-videos::before {
+    font-weight: 900;
+    content: '\f03d';
+}
+
+.nav-tab-videos::after {
+    content: 'My videos';
+}
+
+.nav-tab-logout::before {
+    font-weight: 900;
+    content: '\f011';
+}
+
+.nav-tab-logout::after {
+    content: 'Logout';
+}
+
+#dashboard-content {
+    height: 100%;
+    flex-grow: 1;
+}

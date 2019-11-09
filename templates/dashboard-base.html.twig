@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('font/fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/dashboard-nav.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard-flex" ng-controller="{{ dashboardController }}">
+        <nav>
+            <img src="{{ navLogo }}" alt="nav logo">
+            <ol>
+                {% block navTabs %}{% endblock %}
+            </ol>
+        </nav>
+        <div id="dashboard-content">
+            {% block dashboardContent %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/controller/dashboard-controller.js') }}"></script>
+{% endblock %}

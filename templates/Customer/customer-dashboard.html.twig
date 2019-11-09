@@ -1,0 +1,25 @@
+{% extends 'dashboard-base.html.twig' %}
+
+{% set navLogo = '/img/popcorn.png' %}
+{% set dashboardController = 'customerDashboardController' %}
+
+{% block navTabs %}
+    <li class="nav-tab-profile" ng-click="changeTab(0)" ng-class="{'nav-tab-active': tabNr == 0}"></li>
+    <li class="nav-tab-videos" ng-click="changeTab(1)" ng-class="{'nav-tab-active': tabNr == 1}"></li>
+    <li class="nav-tab-logout" ng-click="logout()" ng-class="{'nav-tab-active': tabNr == 2}"></li>
+{% endblock %}
+
+{% block dashboardContent %}
+    <div ng-show="tabNr == 0">
+        hello
+    </div>
+
+    <div ng-show="tabNr == 1">
+        videos
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/controller/customer/customer-dashboard-controller.js') }}"></script>
+{% endblock %}

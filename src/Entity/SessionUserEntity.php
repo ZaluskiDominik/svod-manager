@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Exception\InvalidUserException;
 use App\Exception\InvalidUserRoleException;
 
 class SessionUserEntity
@@ -15,7 +16,7 @@ class SessionUserEntity
     /** @var string */
     private $userRole;
 
-    /** @var CustomerEntity */
+    /** @var CustomerEntity|PublisherEntity */
     private $user;
 
     public function __construct(int $userId, string $userRole)
@@ -53,12 +54,15 @@ class SessionUserEntity
 
     public function setUser($user): self
     {
-        $this->userRole = $user;
+        if ( !($user instanceof CustomerEntity) && !($user instanceof PublisherEntity) ) {
+            throw new InvalidUserException();
+        }
+        $this->user = $user;
 
         return $this;
     }
 
-    /** @Returns CustomerEntityRepository|PublisherEntityRepository */
+    /** @Returns CustomerEntity|PublisherEntity */
     public function getUser()
     {
         return $this->user;

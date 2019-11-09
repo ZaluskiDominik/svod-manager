@@ -19,6 +19,9 @@ class SessionUserService
     /** @var EntityManagerInterface */
     private $em;
 
+    /** @var SessionUserEntity */
+    private $sessionUser;
+
     public function __construct(SessionInterface $session, EntityManagerInterface $em)
     {
         $this->session = $session;
@@ -28,28 +31,39 @@ class SessionUserService
 
     public function getUser(): ?SessionUserEntity
     {
-        if (!$this->session->has(self::USER_SESS_KEY))
-            return null;
-
-        $sessionUser = unserialize($this->session->get(self::USER_SESS_KEY));
-        if ($sessionUser->getUser() === null) {
-            $repo = $this->getUserRepositoryForSessionUser($sessionUser);
-            $sessionUser->setUser($repo->find($sessionUser->getUserId()));
+        if ($this->sessionUser !== null) {
+            return $this->sessionUser;
         }
 
-        return $sessionUser;
+        if (!$this->session->has(self::USER_SESS_KEY)) {
+            return null;
+        }
+
+        $this->sessionUser = unserialize($this->session->get(self::USER_SESS_KEY));
+        if ($this->sessionUser->getUser() === null) {
+            $repo = $this->getUserRepositoryForSessionUser($this->sessionUser);
+            $this->sessionUser->setUser($repo->find($this->sessionUser->getUserId()));
+        }
+
+        return $this->sessionUser;
     }
 
     public function storeCustomer(CustomerEntity $customer)
     {
         $sessionUser = new SessionUserEntity($customer->getId(), SessionUserEntity::CUSTOMER_ROLE);
-        $this->session->set('user', serialize($sessionUser));
+        $this->session->set(self::USER_SESS_KEY, serialize($sessionUser));
     }
 
     public function storePublisher(PublisherEntity $publisher)
     {
         $sessionUser = new SessionUserEntity($publisher->getId(), SessionUserEntity::PUBLISHER_ROLE);
-        $this->session->set('user', serialize($sessionUser));
+        $this->session->set(self::USER_SESS_KEY, serialize($sessionUser));
+    }
+
+    public function removeUser()
+    {
+        $this->session->remove(self::USER_SESS_KEY);
+        $this->sessionUser = null;
     }
 
     private function startSession()

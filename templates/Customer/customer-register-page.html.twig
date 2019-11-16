@@ -1,7 +1,7 @@
 {%  extends 'register-page-base.html.twig' %}
 
 {% block registerContent %}
-    {% set controller = 'customerRegisterController' %}
+    {% set userDataController = 'customerRegisterController' %}
     {% include('Customer/customer-data-form.html.twig') %}
 {% endblock %}
 

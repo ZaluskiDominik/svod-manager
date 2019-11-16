@@ -45,19 +45,26 @@ class CustomerEntity implements SerializableObjectInterface
 
     public static function fromArray(array $data): self
     {
-        $customerEntity = (new self())
-            ->setFirstName($data['firstName'])
-            ->setSurname($data['surname'])
-            ->setEmail($data['email'])
-            ->setAccountBalance($data['accountBalance'] ?? 0);
-
+        $customer = new self();
+        if (isset($data['firstName'])) {
+            $customer->setFirstName($data['firstName']);
+        }
+        if (isset($data['surname'])) {
+            $customer->setSurname($data['surname']);
+        }
+        if (isset($data['email'])) {
+            $customer->setEmail($data['email']);
+        }
+        if (isset($data['accountBalance'])) {
+            $customer->setAccountBalance($data['accountBalance']);
+        }
         if (isset($data['password'])) {
-            $customerEntity->setPasswordHash(password_hash($data['password'], PASSWORD_DEFAULT));
+            $customer->setPasswordHash(password_hash($data['password'], PASSWORD_DEFAULT));
         } else if (isset($data['passwordHash'])) {
-            $customerEntity->setPasswordHash($data['passwordHash']);
+            $customer->setPasswordHash($data['passwordHash']);
         }
 
-        return $customerEntity;
+        return $customer;
     }
 
     public function toArray(): array

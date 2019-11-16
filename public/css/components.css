@@ -8,3 +8,13 @@
 input.ng-touched.ng-invalid {
     border-color: red !important;
 }
+
+input.ng-touched.ng-valid {
+    border-color: limegreen !important;
+}
+
+input:focus {
+    border-color: #1b9af7 !important;
+    outline: none !important;
+    box-shadow: none !important;
+}

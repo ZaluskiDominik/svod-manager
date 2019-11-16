@@ -84,7 +84,7 @@ nav li::after {
     content: 'Logout';
 }
 
-#dashboard-content {
+#dashboard-content, #dashboard-content > div{
     height: 100%;
     flex-grow: 1;
 }

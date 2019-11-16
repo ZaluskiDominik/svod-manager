@@ -11,7 +11,7 @@
 
 {% block dashboardContent %}
     <div ng-show="tabNr == 0">
-        hello
+        {{ include('Customer/customer-profile.html.twig') }}
     </div>
 
     <div ng-show="tabNr == 1">
@@ -22,4 +22,5 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('js/controller/customer/customer-dashboard-controller.js') }}"></script>
+    <script src="{{ asset('js/controller/customer/customer-profile-controller.js') }}"></script>
 {% endblock %}

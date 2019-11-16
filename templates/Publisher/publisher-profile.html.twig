@@ -1,0 +1,7 @@
+{% extends 'profile.html.twig' %}
+
+{% block userDataForm %}
+    {% set userDataController = 'publisherProfileController' %}
+    {% set submitHandler = 'submitPublisherData()' %}
+    {{ include('Publisher/publisher-data-form.html.twig') }}
+{% endblock %}

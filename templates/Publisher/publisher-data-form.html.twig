@@ -1,5 +1,5 @@
 <form class="user-data-form" id="publisherDataForm" name="publisherDataForm" novalidate
-      ng-model="publisherDataForm" ng-controller="{{ controller }}" ng-submit="{{ submitHandler }}">
+      ng-model="publisherDataForm" ng-controller="{{ userDataController }}" ng-submit="{{ submitHandler }}">
     <div class="user-data-inputs">
         <div class="fullname-flex">
             <div>
@@ -28,13 +28,15 @@
             </div>
         </div>
 
-        <div>
-            <label for="password">Password</label>
-            <input id="password" name="password" ng-model="password" type="password" required maxlength="20" minlength="8">
-            <div ng-if="publisherDataForm.password.$touched && publisherDataForm.password.$invalid" class="input-err-msg">
-                Password length should be between 8 and 20 characters
+        {% if (hidePasswordInput is not defined) %}
+            <div>
+                <label for="password">Password</label>
+                <input id="password" name="password" ng-model="password" type="password" required maxlength="20" minlength="8">
+                <div ng-if="publisherDataForm.password.$touched && publisherDataForm.password.$invalid" class="input-err-msg">
+                    Password length should be between 8 and 20 characters
+                </div>
             </div>
-        </div>
+        {% endif %}
 
         <div>
             <label for="company">Company</label>

@@ -1,0 +1,11 @@
+<div class="profile-content">
+    <div class="profile-content-flex">
+        <div class="profile-img-wrapper"></div>
+        <div class="profile-user-data">
+            <h2>Hello <span class="profile-user-name"></span></h2>
+            {% set hidePasswordInput = true %}
+            {% set submitBtnName = 'Edit' %}
+            {% block userDataForm %}{% endblock %}
+        </div>
+    </div>
+</div>

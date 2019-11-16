@@ -62,21 +62,32 @@ class PublisherEntity implements SerializableObjectInterface
 
     public static function fromArray(array $data): self
     {
-        $publisherEntity = (new self())
-            ->setFirstName($data['firstName'])
-            ->setSurname($data['surname'])
-            ->setEmail($data['email'])
-            ->setAccountBalance($data['accountBalance'] ?? 0)
-            ->setCompany($data['company'])
-            ->setCompanyWebsite($data['companyWebsite'] ?? null);
-
+        $publisher = new self();
+        if (isset($data['firstName'])) {
+            $publisher->setFirstName($data['firstName']);
+        }
+        if (isset($data['surname'])) {
+            $publisher->setSurname($data['surname']);
+        }
+        if (isset($data['email'])) {
+            $publisher->setEmail($data['email']);
+        }
+        if (isset($data['accountBalance'])) {
+            $publisher->setAccountBalance($data['accountBalance']);
+        }
+        if (isset($data['company'])) {
+            $publisher->setCompany($data['company']);
+        }
+        if (isset($data['companyWebsite'])) {
+            $publisher->setCompanyWebsite($data['companyWebsite']);
+        }
         if (isset($data['password'])) {
-            $publisherEntity->setPasswordHash(password_hash($data['password'], PASSWORD_DEFAULT));
+            $publisher->setPasswordHash(password_hash($data['password'], PASSWORD_DEFAULT));
         } else if (isset($data['passwordHash'])) {
-            $publisherEntity->setPasswordHash($data['passwordHash']);
+            $publisher->setPasswordHash($data['passwordHash']);
         }
 
-        return $publisherEntity;
+        return $publisher;
     }
 
     public function toArray(): array

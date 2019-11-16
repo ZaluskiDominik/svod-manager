@@ -33,4 +33,11 @@ class PublisherEntityRepository extends ServiceEntityRepository
 
         return (password_verify($password, $publisher->getPasswordHash())) ? $publisher : null;
     }
+
+    public function findByEmail(string $email): ?PublisherEntity
+    {
+        return $this->findBy([
+            'email' => $email
+        ])[0] ?? null;
+    }
 }

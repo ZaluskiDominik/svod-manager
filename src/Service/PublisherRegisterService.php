@@ -22,6 +22,9 @@ class PublisherRegisterService extends AbstractRegisterService
             return false;
         }
 
+        if ($publisherEntity->getCompanyWebsite() === '') {
+            $publisherEntity->setCompanyWebsite(null);
+        }
         $publisherEntity->setAccountBalance($this->defaultAccountBalance);
         $this->em->persist($publisherEntity);
         $this->em->flush();

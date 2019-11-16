@@ -1,0 +1,7 @@
+{% extends 'profile.html.twig' %}
+
+{% block userDataForm %}
+    {% set userDataController = 'customerProfileController' %}
+    {% set submitHandler = 'submitCustomerData()' %}
+    {{ include('Customer/customer-data-form.html.twig') }}
+{% endblock %}

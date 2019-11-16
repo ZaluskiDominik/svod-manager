@@ -32,4 +32,11 @@ class CustomerEntityRepository extends ServiceEntityRepository
 
         return (password_verify($password, $customer->getPasswordHash())) ? $customer : null;
     }
+
+    public function findByEmail(string $email): ?CustomerEntity
+    {
+        return $this->findBy([
+            'email' => $email
+        ])[0] ?? null;
+    }
 }

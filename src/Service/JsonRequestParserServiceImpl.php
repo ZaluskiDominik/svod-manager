@@ -8,8 +8,8 @@ class JsonRequestParserServiceImpl implements JsonRequestParserService
 {
     public function parse(Request $request): array
     {
-        $bodyWithoutWhiteSpaces = preg_replace('/\s/', '', $request->getContent());
+        $bodyWithoutNewLines = preg_replace('/\n/', '', $request->getContent());
 
-        return json_decode($bodyWithoutWhiteSpaces, true);
+        return json_decode($bodyWithoutNewLines, true);
     }
 }

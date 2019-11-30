@@ -60,6 +60,11 @@ class PublisherEntity implements SerializableObjectInterface
      */
     private $subscriptions;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\VideoEntity", mappedBy="publisher", cascade={"persist"})
+     */
+    private $videos;
+
     public static function fromArray(array $data): self
     {
         $publisher = new self();
@@ -106,6 +111,7 @@ class PublisherEntity implements SerializableObjectInterface
     public function __construct()
     {
         $this->subscriptions = new ArrayCollection();
+        $this->videos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -197,9 +203,6 @@ class PublisherEntity implements SerializableObjectInterface
         return $this;
     }
 
-    /**
-     * @return Collection|SubscriptionEntity[]
-     */
     public function getSubscriptions(): Collection
     {
         return $this->subscriptions;
@@ -222,6 +225,34 @@ class PublisherEntity implements SerializableObjectInterface
             // set the owning side to null (unless already changed)
             if ($subscription->getPublisher() === $this) {
                 $subscription->setPublisher(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getVideos(): Collection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(VideoEntity $video): self
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos[] = $video;
+            $video->setPublisher($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(VideoEntity $video): self
+    {
+        if ($this->videos->contains($video)) {
+            $this->videos->removeElement($video);
+            // set the owning side to null (unless already changed)
+            if ($video->getPublisher() === $this) {
+                $video->setPublisher(null);
             }
         }
 

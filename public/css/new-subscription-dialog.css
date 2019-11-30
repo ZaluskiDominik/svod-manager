@@ -1,0 +1,53 @@
+#new-subscription-dialog {
+    max-height: 90%;
+}
+
+.new-subscription-data .input-err-msg {
+    max-width: none !important;
+}
+
+.new-subscription-data h6 {
+    margin-top: 15px;
+    margin-bottom: 4px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: #555;
+}
+
+.new-subscription-videos {
+    min-height: 150px;
+    max-height: 200px;
+    overflow: auto;
+    border: 1px solid lightgray;
+    padding: 10px;
+}
+
+.subscription-add-videos-flex > :first-child {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.subscription-add-videos-flex {
+    display: flex;
+    align-items: center;
+}
+
+.subscription-add-videos-flex button::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: '\f067';
+    font-size: 20px;
+    color: #077ace;
+}
+
+.subscription-add-videos-flex button:hover {
+    text-shadow: 1px 1px 1px #555;
+}
+
+.subscription-add-videos-flex button {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    transition: text-shadow 0.5s;
+}

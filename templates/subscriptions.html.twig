@@ -1,0 +1,44 @@
+<div class="subscriptions-content" ng-controller="subscriptionsController">
+    <div class="subscriptions-filters-flex">
+        <div class="sub-radios-container">
+            <div class="el-radio">
+                <input id="show-my-subs-radio" type="radio" name="showSubsRadios" checked>
+                <label class="el-radio-style" for="show-my-subs-radio"></label>
+                <label class="sub-radio-label" for="show-my-subs-radio">{{ showMySubsMsg }}</label>
+            </div>
+            <div class="el-radio">
+                <input id="show-all-subs-radio" type="radio" name="showSubsRadios" checked>
+                <label class="el-radio-style" for="show-all-subs-radio"></label>
+                <label class="sub-radio-label" for="show-all-subs-radio">Show all subscriptions</label>
+            </div>
+            {% block showSubsRadios %}{% endblock %}
+        </div>
+        <button class="button button-3d button-primary button-rounded create-sub-btn" ng-click="openNewSubDialog()">
+            New subscription
+        </button>
+    </div>
+
+    <div class="subscriptions">
+        <ul class="collapsible">
+            <li ng-repeat="sub in subscriptions">
+                {% verbatim %}
+                <div class="collapsible-header">
+                    <div class="subscription-flex">
+                        <div>
+                            <b>{{ sub.name }}</b><br>
+                            <span>Company: {{ sub.publisher.company }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="collapsible-body">
+                    <ul class="subscription-videos">
+                        <li ng-repeat="video in sub.videos">{{video.title}}</li>
+                    </ul>
+                </div>
+                {% endverbatim %}
+            </li>
+        </ul>
+    </div>
+
+    {{ include('Publisher/new-subscription-dialog.html.twig') }}
+</div>

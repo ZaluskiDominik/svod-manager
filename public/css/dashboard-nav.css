@@ -36,7 +36,7 @@ nav li {
     width: 100%;
     text-align: center;
     line-height: 1.2;
-    font-size: 14px;
+    font-size: 12px;
     font-family: "Font Awesome 5 Free";
     padding-top: 8px;
     padding-bottom: 8px;
@@ -72,7 +72,16 @@ nav li::after {
 }
 
 .nav-tab-videos::after {
-    content: 'My videos';
+    content: 'Videos';
+}
+
+.nav-tab-subscriptions::before {
+    font-weight: 900;
+    content: '\f1ea';
+}
+
+.nav-tab-subscriptions::after {
+    content: 'Subscriptions';
 }
 
 .nav-tab-logout::before {

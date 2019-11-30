@@ -38,17 +38,21 @@ class CustomerController extends AbstractController
     /** @Route("/api/customer", methods={"GET"}) */
     public function getSessionCustomerDataAction()
     {
-        $sessionsUser = $this->sessionUserService->getUser();
-        if (!$sessionsUser || $sessionsUser->getUserRole() !== SessionUserEntity::CUSTOMER_ROLE) {
+        if (!$this->sessionUserService->hasSessionCustomer()) {
             return new Response('', 401);
         }
+        $sessionUser = $this->sessionUserService->getUser();
 
-        return new JsonResponse($sessionsUser->getUser()->toArray());
+        return new JsonResponse($sessionUser->getUser()->toArray());
     }
 
     /** @Route("/api/customer", methods={"PATCH"}) */
     public function editSessionCustomerData(Request $request)
     {
+        if (!$this->sessionUserService->hasSessionCustomer()) {
+            return new Response('', 401);
+        }
+
         $data = $this->jsonRequestParserService->parse($request);
 
         try {

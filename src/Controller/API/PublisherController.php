@@ -3,7 +3,6 @@
 namespace App\Controller\API;
 
 use App\Entity\PublisherEntity;
-use App\Entity\SessionUserEntity;
 use App\Exception\CustomerEmailExistsException;
 use App\Service\JsonRequestParserService;
 use App\Service\SessionUserService;
@@ -36,19 +35,23 @@ class PublisherController extends AbstractController
     }
 
     /** @Route("/api/publisher", methods={"GET"}) */
-    public function getSessionPublisherDataAction()
+    public function getSessionPublisherDataAction(): Response
     {
-        $sessionsUser = $this->sessionUserService->getUser();
-        if (!$sessionsUser || $sessionsUser->getUserRole() !== SessionUserEntity::PUBLISHER_ROLE) {
+        if (!$this->sessionUserService->hasSessionPublisher()) {
             return new Response('', 401);
         }
+        $sessionUser = $this->sessionUserService->getUser();
 
-        return new JsonResponse($sessionsUser->getUser()->toArray());
+        return new JsonResponse($sessionUser->getUser()->toArray());
     }
 
     /** @Route("/api/publisher", methods={"PATCH"}) */
-    public function editPublisherCustomerData(Request $request)
+    public function editSessionPublisherData(Request $request): Response
     {
+        if (!$this->sessionUserService->hasSessionPublisher()) {
+            return new Response('', 401);
+        }
+
         $data = $this->jsonRequestParserService->parse($request);
 
         try {
@@ -60,5 +63,20 @@ class PublisherController extends AbstractController
         }
 
         return new Response(200);
+    }
+
+    /** @Route("/api/publisher/videos", methods={"GET"}) */
+    public function getSessionPublisherVideos(): Response
+    {
+        if (!$this->sessionUserService->hasSessionPublisher()) {
+            return new Response('', 401);
+        }
+
+        $sessionPublisher = $this->sessionUserService->getUser()->getUser();
+        $videos = $sessionPublisher->getVideos()->toArray();
+
+        return new JsonResponse([
+            'videos' => $videos
+        ]);
     }
 }

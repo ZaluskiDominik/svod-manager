@@ -1,0 +1,91 @@
+.subscriptions-content {
+    height: 100%;
+}
+
+.subscriptions-filters-flex {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 10px;
+    height: 80px;
+    background-color: #eee;
+    border-bottom: 1px solid #dedede;
+}
+
+.sub-radios-container > div:not(:last-child) {
+    margin-bottom: 6px;
+}
+
+.sub-radio-label {
+    font-size: 15px;
+    color: inherit;
+    font-family: inherit;
+    padding-left: 6px;
+}
+
+.create-sub-btn {
+    margin-left: auto;
+    margin-right: 10px;
+}
+
+.create-sub-btn::before {
+    font-family: "Font Awesome 5 Free";
+    content: '\f067';
+    font-weight: 900;
+    color: #13ce66;
+    text-shadow: 1px 1px 1px #333;
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+.subscriptions {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    height: calc(100vh - 80px);
+    max-height: calc(100vh - 80px);
+    overflow: auto;
+}
+
+.subscriptions > ul {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    min-width: 600px;
+    max-width: 1000px;
+    box-shadow: 2px 2px 4px #444;
+}
+
+.subscriptions .collapsible-body {
+    padding: 6px 6px 6px 40px;
+}
+
+.subscription-flex {
+    display: flex;
+    align-items: center;
+}
+
+.subscription-flex::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: '\f054';
+    color: #077ace;
+    font-size: 42px;
+    text-shadow: 1px 1px 1px #222;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.subscription-videos > li {
+    display: flex;
+    align-items: center;
+}
+
+.subscription-videos > li::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: '\f008';
+    color: #444;
+    margin-right: 20px;
+    font-size: 32px;
+}

@@ -3,9 +3,11 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('font/fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('lib/el-checkbox/css/checkbox.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dashboard-nav.css') }}">
     <link rel="stylesheet" href="{{ asset('css/user-data-form.css') }}">
     <link rel="stylesheet" href="{{ asset('css/user-profile.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/subscriptions.css') }}">
 {% endblock %}
 
 {% block body %}
@@ -26,4 +28,5 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('js/controller/dashboard-controller.js') }}"></script>
+    <script src="{{ asset('js/controller/subscriptions-controller.js') }}"></script>
 {% endblock %}

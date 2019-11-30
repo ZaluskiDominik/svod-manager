@@ -1,0 +1,50 @@
+<div id="new-subscription-dialog" class="modal">
+    <div class="modal-content">
+        <h4>New subscription</h4>
+        <div class="new-subscription-data">
+            <form name="newSubscriptionForm" novalidate>
+                <div>
+                    <label for="subscription-name">Subscription name</label>
+                    <input placeholder="My subscription" name="subscriptionName" ng-model="subscriptionName"
+                           id="subscription-name" type="text" required maxlength="40">
+                    <div ng-if="newSubscriptionForm.subscriptionName.$touched
+                    && newSubscriptionForm.subscriptionName.$invalid" class="input-err-msg">
+                        Please provide subscription name
+                    </div>
+                </div>
+
+                <div>
+                    <label for="subscription-price">Subscription price</label>
+                    <input placeholder="9.99&euro;" name="subscriptionPrice" ng-model="subscriptionPrice"
+                           id="subscription-price" type="text" required pattern="^\d+$|^\d+\.\d+$"
+                           maxlength="6" min="5" max="999">
+                    <div ng-if="newSubscriptionForm.subscriptionPrice.$touched
+                    && newSubscriptionForm.subscriptionPrice.$invalid" class="input-err-msg">
+                        Subscription's price should be between 5&euro; and 999&euro;
+                    </div>
+                </div>
+
+                <h6>Subscription's videos</h6>
+                <div class="new-subscription-videos">
+                    {% verbatim %}
+                        <div ng-repeat="video in selectedSubDialogVideos">{{video.title}}</div>
+                    {% endverbatim %}
+                </div>
+
+                <h6>Add video to subscription</h6>
+                <div class="subscription-add-videos-flex">
+                    <select class="icons">
+                        <option selected>Select video</option>
+                        {% verbatim %}
+                            <option ng-repeat="video in notSelectedSubDialogVideos" data-icon="{{video.posterUrl}}">{{video.title}}</option>
+                        {% endverbatim %}
+                    </select>
+                    <button ng-click="addSubDialogVideo()"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="waves-effect waves-green btn-flat" ng-click="saveNewSub()">Save</a>
+    </div>
+</div>

@@ -2,13 +2,17 @@
 
 namespace App\Entity;
 
+use App\Common\Serialization\SerializableObjectInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 /**
  * @ORM\Table(name="subscription")
  * @ORM\Entity(repositoryClass="App\Repository\SubscriptionEntityRepository")
  */
-class SubscriptionEntity
+class SubscriptionEntity implements JsonSerializable, SerializableObjectInterface
 {
     /**
      * @ORM\Id()
@@ -28,11 +32,6 @@ class SubscriptionEntity
     private $price;
 
     /**
-     * @ORM\Column(type="text")
-     */
-    private $description;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\PublisherEntity", inversedBy="subscriptions")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -42,6 +41,32 @@ class SubscriptionEntity
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\VideoEntity", mappedBy="subscriptions")
+     */
+    private $videos;
+
+    public static function fromArray(array $data)
+    {
+        $sub = (new self());
+        if (isset($data['subscriptionName'])) {
+            $sub->setName($data['subscriptionName']);
+        }
+        if (isset($data['subscriptionPrice'])) {
+            $sub->setPrice($data['subscriptionPrice']);
+        }
+        if (isset($data['subscriptionCreatedAt'])) {
+            $sub->setCreatedAt($data['subscriptionCreatedAt']);
+        }
+
+        return $sub;
+    }
+
+    public function __construct()
+    {
+        $this->videos = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -72,18 +97,6 @@ class SubscriptionEntity
         return $this;
     }
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
     public function getPublisher(): ?PublisherEntity
     {
         return $this->publisher;
@@ -106,5 +119,40 @@ class SubscriptionEntity
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    public function getVideos(): Collection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(VideoEntity $video): self
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos[] = $video;
+            $video->addSubscription($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(VideoEntity $video): self
+    {
+        if ($this->videos->contains($video)) {
+            $this->videos->removeElement($video);
+            $video->removeSubscription($this);
+        }
+
+        return $this;
+    }
+
+    public function toArray(): array
+    {
+        // TODO: Implement toArray() method.
+    }
+
+    public function jsonSerialize(): array
+    {
+        return $this->toArray();
     }
 }

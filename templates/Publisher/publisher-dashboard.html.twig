@@ -1,12 +1,18 @@
 {% extends 'dashboard-base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/new-subscription-dialog.css') }}">
+{% endblock %}
+
 {% set navLogo = '/img/manager.png' %}
 {% set dashboardController = 'publisherDashboardController' %}
 
 {% block navTabs %}
     <li class="nav-tab-profile" ng-click="changeTab(0)" ng-class="{'nav-tab-active': tabNr == 0}"></li>
     <li class="nav-tab-videos" ng-click="changeTab(1)" ng-class="{'nav-tab-active': tabNr == 1}"></li>
-    <li class="nav-tab-logout" ng-click="logout()" ng-class="{'nav-tab-active': tabNr == 2}"></li>
+    <li class="nav-tab-subscriptions" ng-click="changeTab(2)" ng-class="{'nav-tab-active': tabNr == 2}"></li>
+    <li class="nav-tab-logout" ng-click="logout()"></li>
 {% endblock %}
 
 {% block dashboardContent %}
@@ -17,10 +23,21 @@
     <div ng-show="tabNr == 1">
         videos
     </div>
+
+    <div ng-show="tabNr == 2">
+        {% set showMySubsMsg = 'Show only my subsciptions' %}
+        {{ include('subscriptions.html.twig') }}
+    </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('js/controller/publisher/publisher-dashboard-controller.js') }}"></script>
     <script src="{{ asset('js/controller/publisher/publisher-profile-controller.js') }}"></script>
+    <script src="{{ asset('js/util/new-subscription-dialog.js') }}"></script>
+    <script src="{{ asset('js/util/subscriptions.js') }}"></script>
+    <script>
+        subscriptions.init();
+        newSubscriptionDialog.init();
+    </script>
 {% endblock %}

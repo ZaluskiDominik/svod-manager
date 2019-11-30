@@ -29,6 +29,18 @@ class SessionUserService
         $this->startSession();
     }
 
+    public function hasSessionPublisher(): bool
+    {
+        $sessionUser = $this->getUser();
+        return ($sessionUser !== null && $sessionUser->getUserRole() === SessionUserEntity::PUBLISHER_ROLE);
+    }
+
+    public function hasSessionCustomer(): bool
+    {
+        $sessionUser = $this->getUser();
+        return ($sessionUser !== null && $sessionUser->getUserRole() === SessionUserEntity::CUSTOMER_ROLE);
+    }
+
     public function getUser(): ?SessionUserEntity
     {
         if ($this->sessionUser !== null) {

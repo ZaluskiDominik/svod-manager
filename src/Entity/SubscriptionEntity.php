@@ -60,6 +60,12 @@ class SubscriptionEntity implements JsonSerializable, SerializableObjectInterfac
             $sub->setCreatedAt($data['subscriptionCreatedAt']);
         }
 
+        if (isset($data['videos'])) {
+            foreach ($data['videos'] as $video) {
+                $sub->addVideo(VideoEntity::fromArray($video));
+            }
+        }
+
         return $sub;
     }
 
@@ -126,6 +132,14 @@ class SubscriptionEntity implements JsonSerializable, SerializableObjectInterfac
         return $this->videos;
     }
 
+    public function setVideos(Collection $videos)
+    {
+        $this->videos = new ArrayCollection();
+        foreach ($videos as $video) {
+            $this->addVideo($video);
+        }
+    }
+
     public function addVideo(VideoEntity $video): self
     {
         if (!$this->videos->contains($video)) {
@@ -148,7 +162,20 @@ class SubscriptionEntity implements JsonSerializable, SerializableObjectInterfac
 
     public function toArray(): array
     {
-        // TODO: Implement toArray() method.
+        $sub = [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'price' => $this->getPrice(),
+            'createdAt' => $this->getCreatedAt(),
+            'publisher' => $this->getPublisher() !== null ? $this->getPublisher() : null,
+            'videos' => []
+        ];
+
+        foreach ($this->videos as $video) {
+            $sub['videos'][] = $video->toArray();
+        }
+
+        return $sub;
     }
 
     public function jsonSerialize(): array

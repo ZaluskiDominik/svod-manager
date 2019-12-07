@@ -1,16 +1,16 @@
 <div class="subscriptions-content" ng-controller="subscriptionsController">
     <div class="subscriptions-filters-flex">
         <div class="sub-radios-container">
-            <div class="el-radio">
-                <input id="show-my-subs-radio" type="radio" name="showSubsRadios" checked>
-                <label class="el-radio-style" for="show-my-subs-radio"></label>
-                <label class="sub-radio-label" for="show-my-subs-radio">{{ showMySubsMsg }}</label>
-            </div>
-            <div class="el-radio">
-                <input id="show-all-subs-radio" type="radio" name="showSubsRadios" checked>
-                <label class="el-radio-style" for="show-all-subs-radio"></label>
-                <label class="sub-radio-label" for="show-all-subs-radio">Show all subscriptions</label>
-            </div>
+            <label>
+                <input id="a" type="radio" class="with-gap" name="subFilterRadios"
+                       ng-click="filterSubscriptions('all-subs')" checked>
+                <span>Show all subscriptions</span>
+            </label><br>
+            <label>
+                <input id="b" type="radio" class="with-gap" name="subFilterRadios"
+                       ng-click="filterSubscriptions('my-subs')">
+                <span>{{ showMySubsMsg }}</span>
+            </label>
             {% block showSubsRadios %}{% endblock %}
         </div>
         <button class="button button-3d button-primary button-rounded create-sub-btn" ng-click="openNewSubDialog()">
@@ -27,12 +27,21 @@
                         <div>
                             <b>{{ sub.name }}</b><br>
                             <span>Company: {{ sub.publisher.company }}</span>
+                            <span ng-if="sub.publisher.companyWebsite"><br>Company website:
+                                <a href="{{sub.publisher.companyWebsite}}">{{ sub.publisher.companyWebsite }}</a>
+                            </span>
+                        </div>
+                        <div class="sub-action-icons" ng-if="sub.publisher.id == user.id">
+                            <button class="sub-delete-btn" onclick="event.stopPropagation()" ng-click="deleteSub($index)"></button>
                         </div>
                     </div>
                 </div>
                 <div class="collapsible-body">
                     <ul class="subscription-videos">
-                        <li ng-repeat="video in sub.videos">{{video.title}}</li>
+                        <li ng-repeat="video in sub.videos">
+                            <img src="{{video.posterUrl}}" alt="&#x1F3A5;">
+                            {{video.title}}
+                        </li>
                     </ul>
                 </div>
                 {% endverbatim %}

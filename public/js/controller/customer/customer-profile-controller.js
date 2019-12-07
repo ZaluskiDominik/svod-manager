@@ -11,6 +11,8 @@ app.controller("customerProfileController", function ($scope, $http, $controller
                 $scope.firstName = data.firstName;
                 $scope.surname = data.surname;
                 $scope.email = data.email;
+                user.fromJsonObject(data);
+
                 $scope.validateForm($scope.customerDataForm);
             })
     };

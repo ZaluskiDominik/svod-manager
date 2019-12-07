@@ -70,6 +70,7 @@ class CustomerEntity implements SerializableObjectInterface
     public function toArray(): array
     {
         return [
+            'id' => $this->getId(),
             'firstName' => $this->getFirstName(),
             'surname' => $this->getSurname(),
             'email' => $this->getEmail(),

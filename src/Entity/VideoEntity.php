@@ -180,7 +180,7 @@ class VideoEntity implements JsonSerializable, SerializableObjectInterface
             'id' => $this->getId(),
             'title' => $this->getTitle(),
             'description' => $this->getDescription(),
-            'publisherId' => $this->getPublisher()->getId(),
+            'publisherId' => ($this->getPublisher()) ? $this->getPublisher()->getId() : null,
             'posterUrl' => $this->getPosterUrl(),
             'embedCode' => $this->getEmbedCode()
         ];

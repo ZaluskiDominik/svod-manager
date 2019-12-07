@@ -11,16 +11,19 @@
                     && newSubscriptionForm.subscriptionName.$invalid" class="input-err-msg">
                         Please provide subscription name
                     </div>
+                    <div ng-if="newSubErrorAPI && newSubscriptionForm.subscriptionName.$valid" class="input-err-msg">
+                        {% verbatim %}{{newSubErrorAPI}}{% endverbatim %}
+                    </div>
                 </div>
 
                 <div>
                     <label for="subscription-price">Subscription price</label>
                     <input placeholder="9.99&euro;" name="subscriptionPrice" ng-model="subscriptionPrice"
-                           id="subscription-price" type="text" required pattern="^\d+$|^\d+\.\d+$"
-                           maxlength="6" min="5" max="999">
+                           id="subscription-price" type="number" required pattern="^\d+$|^\d+\.\d{1,2}$"
+                           min="5" max="999.99">
                     <div ng-if="newSubscriptionForm.subscriptionPrice.$touched
                     && newSubscriptionForm.subscriptionPrice.$invalid" class="input-err-msg">
-                        Subscription's price should be between 5&euro; and 999&euro;
+                        Subscription's price should be between 5.00&euro; and 999.99&euro; and should have up to 2 decimal places
                     </div>
                 </div>
 
@@ -29,6 +32,9 @@
                     {% verbatim %}
                         <div ng-repeat="video in selectedSubDialogVideos">{{video.title}}</div>
                     {% endverbatim %}
+                </div>
+                <div ng-if="nonEmptySubVideosError" class="input-err-msg">
+                    {% verbatim %}{{nonEmptySubVideosError}}{% endverbatim %}
                 </div>
 
                 <h6>Add video to subscription</h6>

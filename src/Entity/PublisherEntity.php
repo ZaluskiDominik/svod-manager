@@ -6,12 +6,13 @@ use App\Common\Serialization\SerializableObjectInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 /**
  * @ORM\Table(name="publisher")
  * @ORM\Entity(repositoryClass="App\Repository\PublisherEntityRepository")
  */
-class PublisherEntity implements SerializableObjectInterface
+class PublisherEntity implements SerializableObjectInterface, JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -98,6 +99,7 @@ class PublisherEntity implements SerializableObjectInterface
     public function toArray(): array
     {
         return [
+            'id' => $this->getId(),
             'firstName' => $this->getFirstName(),
             'surname' => $this->getSurname(),
             'email' => $this->getEmail(),
@@ -106,6 +108,11 @@ class PublisherEntity implements SerializableObjectInterface
             'company' => $this->getCompany(),
             'companyWebsite' => $this->getCompanyWebsite()
         ];
+    }
+
+    public function jsonSerialize(): array
+    {
+        return $this->toArray();
     }
 
     public function __construct()

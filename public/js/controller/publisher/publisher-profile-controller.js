@@ -13,6 +13,7 @@ app.controller("publisherProfileController", function ($scope, $http, $controlle
                 $scope.email = data.email;
                 $scope.company = data.company;
                 $scope.companyWebsite = data.companyWebsite;
+                user.fromJsonObject(data);
 
                 $scope.validateForm($scope.publisherDataForm);
             })

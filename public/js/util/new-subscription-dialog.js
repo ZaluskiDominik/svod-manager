@@ -24,6 +24,10 @@ let newSubscriptionDialog = {
         M.Modal.getInstance(this.dialogNode).open();
     },
 
+    close : function() {
+        M.Modal.getInstance(this.dialogNode).close();
+    },
+
     getSelectedVideoIndex : function() {
         return Array.from(this.dialogNode.querySelectorAll('.select-wrapper ul > li')).findIndex( (elem) => {
             return elem.className.indexOf('selected') !== -1;

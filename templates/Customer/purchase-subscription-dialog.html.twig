@@ -1,0 +1,17 @@
+<div id="sub-purchase-dialog" class="modal">
+    <div class="modal-content">
+        <h4>Purchase subscription</h4>
+        {% verbatim %}
+            <p>
+                Are you sure you want to purchase <b>{{subToPurchase.name}} subscription</b>
+                from company <b>{{subToPurchase.publisher.company}}</b>?
+                <br>Account balance after purchase:
+                <b class="after-purchase-balance">{{user.accountBalance - subToPurchase.price}}&euro;</b>
+            </p>
+            {% endverbatim %}
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="modal-close waves-effect waves-green btn-flat">No</a>
+        <a href="#" class="modal-close waves-effect waves-green btn-flat" ng-click="purchaseSub()">Yes</a>
+    </div>
+</div>

@@ -47,6 +47,11 @@ class SubscriptionEntity implements JsonSerializable, SerializableObjectInterfac
      */
     private $videos;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PurchasedSubscriptionEntity", mappedBy="subscription", orphanRemoval=true)
+     */
+    private $purchasedSubscriptions;
+
     public static function fromArray(array $data)
     {
         $sub = (new self());
@@ -72,6 +77,7 @@ class SubscriptionEntity implements JsonSerializable, SerializableObjectInterfac
     public function __construct()
     {
         $this->videos = new ArrayCollection();
+        $this->purchasedSubscriptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -181,5 +187,36 @@ class SubscriptionEntity implements JsonSerializable, SerializableObjectInterfac
     public function jsonSerialize(): array
     {
         return $this->toArray();
+    }
+
+    /**
+     * @return Collection|PurchasedSubscriptionEntity[]
+     */
+    public function getPurchasedSubscriptions(): Collection
+    {
+        return $this->purchasedSubscriptions;
+    }
+
+    public function addPurchasedSubscription(PurchasedSubscriptionEntity $purchasedSubscription): self
+    {
+        if (!$this->purchasedSubscriptions->contains($purchasedSubscription)) {
+            $this->purchasedSubscriptions[] = $purchasedSubscription;
+            $purchasedSubscription->setSubscription($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchasedSubscription(PurchasedSubscriptionEntity $purchasedSubscription): self
+    {
+        if ($this->purchasedSubscriptions->contains($purchasedSubscription)) {
+            $this->purchasedSubscriptions->removeElement($purchasedSubscription);
+            // set the owning side to null (unless already changed)
+            if ($purchasedSubscription->getSubscription() === $this) {
+                $purchasedSubscription->setSubscription(null);
+            }
+        }
+
+        return $this;
     }
 }

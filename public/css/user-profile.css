@@ -33,6 +33,41 @@
     font-size: 200px;
 }
 
+.account-balance-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+    border-bottom: 1px solid lightgray;
+}
+
+.account-balance-wrapper::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: '\f555';
+    font-size: 50px;
+    margin-right: 80px;
+}
+
+.account-balance {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    text-align: center;
+    color: #34a5f8;
+}
+
+.account-balance::after {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: '\f153';
+    font-size: 44px;
+    margin-left: 10px;
+    color: #1b9af7;
+    text-shadow: 1px 1px 2px #555;
+}
+
 .profile-user-data {
     flex-grow: 1;
     width: 50%;

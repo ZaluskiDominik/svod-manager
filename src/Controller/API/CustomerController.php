@@ -52,7 +52,6 @@ class CustomerController extends AbstractController
         if (!$this->sessionUserService->hasSessionCustomer()) {
             return new Response('', 401);
         }
-
         $data = $this->jsonRequestParserService->parse($request);
 
         try {
@@ -65,4 +64,13 @@ class CustomerController extends AbstractController
 
         return new Response(200);
     }
+
+//    /** @Route("/api/customer/videos", methods={"GET"}) */
+//    public function getCustomersVideos() {
+//        if (!$this->sessionUserService->hasSessionCustomer()) {
+//            return new Response('', 401);
+//        }
+//
+//
+//    }
 }

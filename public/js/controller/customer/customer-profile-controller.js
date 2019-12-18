@@ -12,6 +12,7 @@ app.controller("customerProfileController", function ($scope, $http, $controller
                 $scope.surname = data.surname;
                 $scope.email = data.email;
                 user.fromJsonObject(data);
+                user.updateAccountBalance(data.accountBalance);
 
                 $scope.validateForm($scope.customerDataForm);
             })

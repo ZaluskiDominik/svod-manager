@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Common\Serialization\SerializableObjectInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,6 +44,16 @@ class CustomerEntity implements SerializableObjectInterface
      * @ORM\Column(type="float", name="account_balance")
      */
     private $accountBalance;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PurchasedSubscriptionEntity", mappedBy="customer", orphanRemoval=true)
+     */
+    private $purchasedSubscriptions;
+
+    public function __construct()
+    {
+        $this->purchasedSubscriptions = new ArrayCollection();
+    }
 
     public static function fromArray(array $data): self
     {
@@ -140,6 +152,37 @@ class CustomerEntity implements SerializableObjectInterface
     public function setAccountBalance(string $accountBalance): self
     {
         $this->accountBalance = $accountBalance;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PurchasedSubscriptionEntity[]
+     */
+    public function getPurchasedSubscriptions(): Collection
+    {
+        return $this->purchasedSubscriptions;
+    }
+
+    public function addPurchasedSubscription(PurchasedSubscriptionEntity $purchasedSubscription): self
+    {
+        if (!$this->purchasedSubscriptions->contains($purchasedSubscription)) {
+            $this->purchasedSubscriptions[] = $purchasedSubscription;
+            $purchasedSubscription->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchasedSubscription(PurchasedSubscriptionEntity $purchasedSubscription): self
+    {
+        if ($this->purchasedSubscriptions->contains($purchasedSubscription)) {
+            $this->purchasedSubscriptions->removeElement($purchasedSubscription);
+            // set the owning side to null (unless already changed)
+            if ($purchasedSubscription->getCustomer() === $this) {
+                $purchasedSubscription->setCustomer(null);
+            }
+        }
 
         return $this;
     }

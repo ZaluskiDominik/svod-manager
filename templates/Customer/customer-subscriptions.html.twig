@@ -1,0 +1,36 @@
+{% extends 'subscriptions.html.twig' %}
+
+{% block subsController %}customerSubscriptionsController{% endblock %}
+
+{% block showMySubs %}
+    Purchased subscriptions
+{% endblock %}
+{% block showSubsRadios %}
+    <label>
+        <br>
+        <input type="radio" class="with-gap" name="subFilterRadios"
+               ng-click="filterSubscriptions('not-purchased-subs')" checked>
+        <span>Not purchased subscriptions</span>
+    </label>
+{% endblock %}
+
+{% block subPanelBtns %}
+{% endblock %}
+
+{% block subscriptionInfo %}
+    {% verbatim %}
+    <div ng-if="sub.activeTo == null">Duration: <b>1 Month</b></div>
+    <div ng-if="sub.activeTo != null">Active to: <b>{{sub.activeTo}}</b></div>
+    {% endverbatim %}
+{% endblock %}
+
+{% block subscriptionFlex %}
+    <div class="sub-action-icons" ng-if="sub.activeTo == null">
+        <button class="sub-purchase-btn modal-trigger" onclick="event.stopPropagation()" ng-click="openPurchaseDialog($index)"
+        data-target="sub-purchase-dialog"></button>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {{ include('Customer/purchase-subscription-dialog.html.twig') }}
+{% endblock %}

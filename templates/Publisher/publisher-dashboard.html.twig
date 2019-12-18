@@ -25,8 +25,7 @@
     </div>
 
     <div ng-show="tabNr == 2">
-        {% set showMySubsMsg = 'Show only my subsciptions' %}
-        {{ include('subscriptions.html.twig') }}
+        {{ include('Publisher/publisher-subscriptions.html.twig') }}
     </div>
 {% endblock %}
 
@@ -35,9 +34,8 @@
     <script src="{{ asset('js/controller/publisher/publisher-dashboard-controller.js') }}"></script>
     <script src="{{ asset('js/controller/publisher/publisher-profile-controller.js') }}"></script>
     <script src="{{ asset('js/util/new-subscription-dialog.js') }}"></script>
-    <script src="{{ asset('js/util/subscriptions.js') }}"></script>
+    <script src="{{ asset('js/controller/publisher/publisher-subscriptions-controller.js') }}"></script>
     <script>
-        subscriptions.init();
         newSubscriptionDialog.init();
     </script>
 {% endblock %}

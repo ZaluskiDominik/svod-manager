@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -26,6 +28,16 @@ class VideoPlayerEntity
      * @ORM\Column(type="text", nullable=true)
      */
     private $templateEmbedCode;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\VideoEntity", mappedBy="videoPlayer", orphanRemoval=true)
+     */
+    private $videos;
+
+    public function __construct()
+    {
+        $this->videos = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -52,6 +64,37 @@ class VideoPlayerEntity
     public function setTemplateEmbedCode(?string $templateEmbedCode): self
     {
         $this->templateEmbedCode = $templateEmbedCode;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|VideoEntity[]
+     */
+    public function getVideos(): Collection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(VideoEntity $video): self
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos[] = $video;
+            $video->setVideoPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(VideoEntity $video): self
+    {
+        if ($this->videos->contains($video)) {
+            $this->videos->removeElement($video);
+            // set the owning side to null (unless already changed)
+            if ($video->getVideoPlayer() === $this) {
+                $video->setVideoPlayer(null);
+            }
+        }
 
         return $this;
     }

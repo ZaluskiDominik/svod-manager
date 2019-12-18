@@ -14,6 +14,7 @@ app.controller("publisherProfileController", function ($scope, $http, $controlle
                 $scope.company = data.company;
                 $scope.companyWebsite = data.companyWebsite;
                 user.fromJsonObject(data);
+                user.updateAccountBalance(data.accountBalance);
 
                 $scope.validateForm($scope.publisherDataForm);
             })

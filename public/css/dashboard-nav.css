@@ -72,7 +72,7 @@ nav li::after {
 }
 
 .nav-tab-videos::after {
-    content: 'Videos';
+    content: 'My Videos';
 }
 
 .nav-tab-subscriptions::before {

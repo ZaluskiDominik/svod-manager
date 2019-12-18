@@ -22,5 +22,15 @@ let subscriptions = {
                 elem.remove();
             }
         })
+    },
+
+    filterSubscriptions : function(callback) {
+        Array.from(document.querySelectorAll('.subscriptions > ul > li')).forEach( (elem, index) => {
+            elem.style.display = callback(elem, index) ? 'block' : 'none';
+        });
+    },
+
+    removeSubFilters : function() {
+        this.filterSubscriptions(() => { return true; });
     }
 };

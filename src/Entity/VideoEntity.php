@@ -52,6 +52,12 @@ class VideoEntity implements JsonSerializable, SerializableObjectInterface
      */
     private $publisher;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\VideoPlayerEntity", inversedBy="videos")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $videoPlayer;
+
     public static function fromArray(array $data)
     {
         $video = new self();
@@ -189,5 +195,17 @@ class VideoEntity implements JsonSerializable, SerializableObjectInterface
     public function jsonSerialize(): array
     {
         return $this->toArray();
+    }
+
+    public function getVideoPlayer(): ?VideoPlayerEntity
+    {
+        return $this->videoPlayer;
+    }
+
+    public function setVideoPlayer(?VideoPlayerEntity $videoPlayer): self
+    {
+        $this->videoPlayer = $videoPlayer;
+
+        return $this;
     }
 }

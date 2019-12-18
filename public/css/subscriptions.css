@@ -8,7 +8,7 @@
     align-items: center;
     box-sizing: border-box;
     padding: 10px;
-    height: 80px;
+    height: 90px;
     background-color: #eee;
     border-bottom: 1px solid #dedede;
 }
@@ -17,11 +17,8 @@
     margin-bottom: 6px;
 }
 
-.sub-radio-label {
-    font-size: 15px;
-    color: inherit;
-    font-family: inherit;
-    padding-left: 6px;
+.sub-radios-container label span {
+    color: #444;
 }
 
 .create-sub-btn {
@@ -42,8 +39,8 @@
 .subscriptions {
     padding-top: 15px;
     padding-bottom: 15px;
-    height: calc(100vh - 80px);
-    max-height: calc(100vh - 80px);
+    height: calc(100vh - 90px);
+    max-height: calc(100vh - 90px);
     overflow: auto;
 }
 
@@ -128,4 +125,23 @@
 
 .sub-delete-btn:hover::before {
     color: red;
+}
+
+.sub-purchase-btn::before {
+    content: '\f53a';
+    font-weight: 900 !important;
+    color: #85bb65;
+    font-size: 28px !important;
+}
+
+.sub-purchase-btn:hover::before {
+    color: green;
+}
+
+#sub-purchase-dialog p {
+    font-size: 17px;
+}
+
+.after-purchase-balance {
+    color: #077ace;
 }

@@ -6,6 +6,8 @@ use App\Entity\SubscriptionEntity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Exception;
+use PDO;
 
 /**
  * @method SubscriptionEntity|null find($id, $lockMode = null, $lockVersion = null)
@@ -39,7 +41,7 @@ class SubscriptionEntityRepository extends ServiceEntityRepository
         }
     }
 
-    public function findAllSubscriptions()
+    public function findAllSubscriptions(): array
     {
         return $this->getEntityManager()
             ->createQuery("SELECT s, partial p.{id, company, companyWebsite}, v FROM App\Entity\SubscriptionEntity s
@@ -48,11 +50,67 @@ class SubscriptionEntityRepository extends ServiceEntityRepository
             ->getArrayResult();
     }
 
+    public function findAllSubscriptionsWithInfoIfPurchased(int $customerId): array
+    {
+        $pdo = $this->getEntityManager()->getConnection()->getWrappedConnection();
+        $stmt = $pdo->prepare("CALL find_all_subs_with_info_if_purchased(?)");
+        $stmt->execute([$customerId]);
+        $subs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $this->getFormattedSubsWithInfoIfPurchased($subs);
+    }
+
     public function deleteSubscription(int $subId)
     {
         $this->getEntityManager()
             ->createQuery("DELETE FROM App\Entity\SubscriptionEntity s WHERE s.id = :id")
             ->setParameter('id', $subId)
             ->execute();
+    }
+
+    public function purchaseSubscription(int $subId, int $customerId)
+    {
+        /** @var PDO $pdo */
+        $pdo = $this->getEntityManager()->getConnection()->getWrappedConnection();
+        $stmt = $pdo->prepare("CALL purchase_sub(:subId, :customerId)");
+        $stmt->bindValue('subId', $subId);
+        $stmt->bindValue('customerId', $customerId);
+        $stmt->execute();
+    }
+
+    private function getFormattedSubsWithInfoIfPurchased(array $subs): array
+    {
+        $subs[] = [ 'id' => -1 ];
+        $formattedSubs = [];
+        $videos = [];
+        $prevSubId = $subs[0]['id'] ?? null;
+        foreach ($subs as $index => $sub) {
+            if ($sub['id'] !== $prevSubId) {
+                $formattedSubs[] = [
+                    'id' => $prevSubId,
+                    'name' => $subs[$index - 1]['name'],
+                    'price' => $subs[$index - 1]['price'],
+                    'createdAt' => $subs[$index - 1]['created_at'],
+                    'publisher' => [
+                        'id' => $subs[$index - 1]['publisher_id'],
+                        'company' => $subs[$index - 1]['company'],
+                        'companyWebsite' => $subs[$index - 1]['company_website']
+                    ],
+                    'videos' => $videos,
+                    'activeTo' => $subs[$index - 1]['active_to']
+                ];
+
+                $prevSubId = $sub['id'];
+                $videos = [];
+            }
+
+            $videos[] = [
+                'id' => $sub['video_id'] ?? null,
+                'title' => $sub['title'] ?? null,
+                'posterUrl' => $sub['poster_url'] ?? null
+            ];
+        }
+
+        return $formattedSubs;
     }
 }

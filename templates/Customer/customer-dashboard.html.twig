@@ -6,7 +6,8 @@
 {% block navTabs %}
     <li class="nav-tab-profile" ng-click="changeTab(0)" ng-class="{'nav-tab-active': tabNr == 0}"></li>
     <li class="nav-tab-videos" ng-click="changeTab(1)" ng-class="{'nav-tab-active': tabNr == 1}"></li>
-    <li class="nav-tab-logout" ng-click="logout()" ng-class="{'nav-tab-active': tabNr == 2}"></li>
+    <li class="nav-tab-subscriptions" ng-click="changeTab(2)" ng-class="{'nav-tab-active': tabNr == 2}"></li>
+    <li class="nav-tab-logout" ng-click="logout()" ng-class="{'nav-tab-active': tabNr == 3}"></li>
 {% endblock %}
 
 {% block dashboardContent %}
@@ -17,10 +18,16 @@
     <div ng-show="tabNr == 1">
         videos
     </div>
+
+    <div ng-show="tabNr == 2">
+        {{ include('Customer/customer-subscriptions.html.twig') }}
+    </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('js/controller/customer/customer-dashboard-controller.js') }}"></script>
     <script src="{{ asset('js/controller/customer/customer-profile-controller.js') }}"></script>
+    <script src="{{ asset('js/controller/customer/customer-subscriptions-controller.js') }}"></script>
+    <script src="{{ asset('js/util/purchase-subscription-dialog.js') }}"></script>
 {% endblock %}

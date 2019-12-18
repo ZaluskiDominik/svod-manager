@@ -34,9 +34,21 @@ class SubscriptionController extends AbstractController
     }
 
     /** @Route("/api/subscriptions", methods={"GET"}) */
-    public function getSubscriptions()
+    public function getAllSubscriptions(Request $request)
     {
-        return new JsonResponse($this->subscriptionRepository->findAllSubscriptions());
+        $purchasedInfoFilter = ($request->query->get('info') === 'purchased');
+        if (!$purchasedInfoFilter) {
+            return new JsonResponse($this->subscriptionRepository->findAllSubscriptions());
+        }
+
+        if (!$this->sessionUserService->hasSessionCustomer()) {
+            return new JsonResponse([
+                'message' => 'Only customer can use this option'
+            ], 400);
+        }
+        $user = $this->sessionUserService->getUser()->getUser();
+
+        return new JsonResponse($this->subscriptionRepository->findAllSubscriptionsWithInfoIfPurchased($user->getId()));
     }
 
     /** @Route("/api/subscription", methods={"POST"}) */
@@ -73,5 +85,18 @@ class SubscriptionController extends AbstractController
         $this->subscriptionRepository->deleteSubscription($data['id']);
 
         return new Response('', 202);
+    }
+
+    /** @Route("/api/subscription/purchase", methods={"POST"}) */
+    public function purchaseSubscriptionAction(Request $request)
+    {
+        if (!$this->sessionUserService->hasSessionCustomer()) {
+            return new Response('', 401);
+        }
+
+        $data = $this->jsonRequestParserService->parse($request);
+        $this->subscriptionRepository->purchaseSubscription($data['subscriptionId'], $data['customerId']);
+
+        return new Response('');
     }
 }

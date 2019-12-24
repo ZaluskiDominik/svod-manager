@@ -4,6 +4,9 @@ namespace App\Controller\API;
 
 use App\Entity\CustomerEntity;
 use App\Entity\PublisherEntity;
+use App\Exception\CompanyExistsException;
+use App\Exception\CustomerEmailExistsException;
+use App\Exception\PublisherEmailExistsException;
 use App\Service\CustomerRegisterService;
 use App\Service\JsonRequestParserService;
 use App\Service\PublisherRegisterService;
@@ -38,9 +41,12 @@ class RegisterController extends AbstractController
     {
         $data = $this->jsonRequestParserService->parse($request);
 
-        if (!$this->publisherRegisterService->register(PublisherEntity::fromArray($data))) {
+        try {
+            $this->publisherRegisterService->register(PublisherEntity::fromArray($data));
+        } catch (PublisherEmailExistsException | CompanyExistsException $e) {
             return new JsonResponse([
-                'message' => 'Publisher with that email already exists!'
+                'message' => $e->getMessage(),
+                'errorField' => ($e instanceof CompanyExistsException) ? 'company' : 'email'
             ], 409);
         }
 
@@ -52,9 +58,12 @@ class RegisterController extends AbstractController
     {
         $data = $this->jsonRequestParserService->parse($request);
 
-        if (!$this->customerRegisterService->register(CustomerEntity::fromArray($data))) {
+        try {
+            $this->customerRegisterService->register(CustomerEntity::fromArray($data));
+        } catch (CustomerEmailExistsException $e) {
             return new JsonResponse([
-                'message' => 'Customer with that email already exists!'
+                'message' => $e->getMessage(),
+                'errorField' => 'email'
             ], 409);
         }
 

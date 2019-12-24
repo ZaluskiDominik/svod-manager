@@ -6,10 +6,14 @@ use App\Common\Serialization\SerializableObjectInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 use JsonSerializable;
 
 /**
- * @ORM\Table(name="publisher")
+ * @ORM\Table(name="publisher", uniqueConstraints={
+ *      @UniqueConstraint(name="idx_p_email", columns={"email"}),
+ *      @UniqueConstraint(name="idx_company", columns={"company"})
+ * })
  * @ORM\Entity(repositoryClass="App\Repository\PublisherEntityRepository")
  */
 class PublisherEntity implements SerializableObjectInterface, JsonSerializable

@@ -12,8 +12,10 @@ app.controller("customerRegisterController", function ($scope, $http, $controlle
         $http.post('/api/customer', formFieldsToObjectConverter.convert(form))
             .then( (response) => { window.location = response.data.redirectUrl; })
             .catch( (response) => {
+                $scope.emailExistsErr = $scope.apiError = '';
+
                 if (response.status === 409) {
-                    $scope.apiError = response.data.message;
+                    $scope.emailExistsErr = response.data.message;
                 } else {
                     $scope.apiError = "Unknown error happened";
                 }

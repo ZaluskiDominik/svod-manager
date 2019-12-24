@@ -3,6 +3,9 @@
 namespace App\Service;
 
 use App\Entity\PublisherEntity;
+use App\Exception\CompanyExistsException;
+use App\Exception\PublisherEmailExistsException;
+use App\Repository\PublisherEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
@@ -16,10 +19,18 @@ class PublisherRegisterService extends AbstractRegisterService
         parent::__construct($em, $sessionUserService, $containerBag);
     }
 
-    public function register(PublisherEntity $publisherEntity): bool
+    /**
+     * @throws PublisherEmailExistsException
+     * @throws CompanyExistsException
+     */
+    public function register(PublisherEntity $publisherEntity)
     {
         if ($this->checkIfPublisherAlreadyExists($publisherEntity)) {
-            return false;
+            throw new PublisherEmailExistsException($publisherEntity->getEmail());
+        }
+
+        if ($this->checkIfCompanyAlreadyExists($publisherEntity->getCompany())) {
+            throw new CompanyExistsException($publisherEntity->getCompany());
         }
 
         if ($publisherEntity->getCompanyWebsite() === '') {
@@ -30,8 +41,6 @@ class PublisherRegisterService extends AbstractRegisterService
         $this->em->flush();
 
         $this->sessionUserService->storePublisher($publisherEntity);
-
-        return true;
     }
 
     private function checkIfPublisherAlreadyExists(PublisherEntity $publisherEntity): bool
@@ -39,6 +48,15 @@ class PublisherRegisterService extends AbstractRegisterService
         $publisherRepository = $this->em->getRepository(PublisherEntity::class);
         $queryResult = $publisherRepository->findBy([
             'email' => $publisherEntity->getEmail()
+        ]);
+
+        return count($queryResult) !== 0;
+    }
+
+    private function checkIfCompanyAlreadyExists(string $company): bool
+    {
+        $queryResult = $this->em->getRepository(PublisherEntity::class)->findBy([
+            'company' => $company
         ]);
 
         return count($queryResult) !== 0;

@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\CustomerEntity;
+use App\Exception\CustomerEmailExistsException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
@@ -16,10 +17,11 @@ class CustomerRegisterService extends AbstractRegisterService
         parent::__construct($em, $sessionUserService, $containerBag);
     }
 
-    public function register(CustomerEntity $customerEntity): bool
+    /** @throws CustomerEmailExistsException */
+    public function register(CustomerEntity $customerEntity)
     {
         if ($this->checkIfCustomerAlreadyExists($customerEntity)) {
-            return false;
+            throw new CustomerEmailExistsException($customerEntity->getEmail());
         }
 
         $customerEntity->setAccountBalance($this->defaultAccountBalance);
@@ -27,8 +29,6 @@ class CustomerRegisterService extends AbstractRegisterService
         $this->em->flush();
 
         $this->sessionUserService->storeCustomer($customerEntity);
-
-        return true;
     }
 
     private function checkIfCustomerAlreadyExists(CustomerEntity $customerEntity): bool

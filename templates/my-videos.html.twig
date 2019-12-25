@@ -26,12 +26,21 @@
             <i class="fas fa-hand-point-left" ng-click="goBackVideo()"></i>{{selectedVideo.title}}
         </h2>
         <div class="video-description">
-            <img src="{{selectedVideo.posterUrl}}" alt="&#x1F3A5;">
+            <div class="video-description-poster-wrapper">
+                <img src="{{selectedVideo.posterUrl}}" alt="&#x1F3A5;">
+                <button class="open-video-player-btn" ng-click="openVideoPlayer()"></button>
+            </div>
             <div ng-bind-html="selectedVideo.description | trust"></div>
         </div>
         {% endverbatim %}
     </div>
 
     <div ng-show="myVideosView == VideosView.PLAYER" class="my-videos-player-view">
+        {% verbatim %}
+        <h2 class="video-title">
+            <i class="fas fa-hand-point-left" ng-click="goBackVideo()"></i>{{selectedVideo.title}}
+        </h2>
+        {% endverbatim %}
+        <div class="video-player-wrapper" ng-bind-html="selectedVideo.embedCode | trust"></div>
     </div>
 </div>

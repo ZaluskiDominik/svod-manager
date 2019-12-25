@@ -45,7 +45,9 @@ class SubscriptionEntityRepository extends ServiceEntityRepository
     public function findAllSubscriptions(): array
     {
         return $this->getEntityManager()
-            ->createQuery("SELECT s, partial p.{id, company, companyWebsite}, v FROM App\Entity\SubscriptionEntity s
+            ->createQuery("SELECT
+                s, partial p.{id, company, companyWebsite}, partial v.{id, title, description, posterUrl}
+                FROM App\Entity\SubscriptionEntity s
                 LEFT JOIN s.videos v
                 INNER JOIN s.publisher p")
             ->getArrayResult();

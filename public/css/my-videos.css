@@ -98,7 +98,8 @@ p.desc {
     font-size: 1.1em;
 }
 
-.video-description img {
+.video-description-poster-wrapper {
+    position: relative;
     float: left;
     width: 360px;
     height: 260px;
@@ -111,6 +112,47 @@ p.desc {
     background-color: #eee;
     border: 3px solid #888;
     border-radius: 3px;
+}
+
+.open-video-player-btn {
+    border: none;
+    cursor: pointer;
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background-color: rgba(255, 255, 255, 0);
+    transition: opacity 0.8s, background-color 0.8s, box-shadow 0.8s 0.4s;
+}
+
+.open-video-player-btn::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: '\f144';
+    font-size: 120px;
+    color: #4cb0f9;
+    transition: color 0.6s, 0.4s, text-shadow 0.6s 0.4s;
+}
+
+.open-video-player-btn:hover {
+    opacity: 0.7;
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 36px black inset;
+}
+
+.open-video-player-btn:hover::before {
+    color: #1b9af7;
+    text-shadow: 2px 2px 8px #444;
+}
+.video-description img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 }
 
 .video-title {
@@ -135,4 +177,23 @@ p.desc {
 .video-title i:hover {
     color: #13ce66;
     text-shadow: 1px 1px 5px #555;
+}
+
+.my-videos-player-view {
+    max-height: 100vh;
+    overflow-y: auto;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.video-player-wrapper {
+    min-height: calc(100vh - 100px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+video {
+    width: 420px;
+    height: 260px;
 }

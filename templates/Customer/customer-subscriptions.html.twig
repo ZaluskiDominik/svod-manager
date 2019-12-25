@@ -24,8 +24,12 @@
     {% endverbatim %}
 {% endblock %}
 
+{% block showSubPriceIf %}
+    sub.activeTo == null
+{% endblock %}
+
 {% block subscriptionFlex %}
-    <div class="sub-action-icons" ng-if="sub.activeTo == null">
+    <div class="sub-action-icons" ng-if="sub.activeTo == null && sub.price <= user.accountBalance">
         <button class="sub-purchase-btn modal-trigger" onclick="event.stopPropagation()" ng-click="openPurchaseDialog($index)"
         data-target="sub-purchase-dialog"></button>
     </div>

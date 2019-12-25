@@ -32,6 +32,7 @@ class SubscriptionEntityRepository extends ServiceEntityRepository
         $em->flush($subscription);
 
         $subscription->setVideos($videos);
+        /** @var PDO $pdo */
         $pdo = $em->getConnection()->getWrappedConnection();
         $stmt = $pdo->prepare("INSERT INTO 
             video_entity_subscription_entity(video_entity_id, subscription_entity_id)
@@ -52,7 +53,9 @@ class SubscriptionEntityRepository extends ServiceEntityRepository
 
     public function findAllSubscriptionsWithInfoIfPurchased(int $customerId): array
     {
+        /** @var PDO $pdo */
         $pdo = $this->getEntityManager()->getConnection()->getWrappedConnection();
+        $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         $stmt = $pdo->prepare("CALL find_all_subs_with_info_if_purchased(?)");
         $stmt->execute([$customerId]);
         $subs = $stmt->fetchAll(PDO::FETCH_ASSOC);

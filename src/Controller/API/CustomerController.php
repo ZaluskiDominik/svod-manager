@@ -5,6 +5,7 @@ namespace App\Controller\API;
 use App\Entity\CustomerEntity;
 use App\Entity\SessionUserEntity;
 use App\Exception\CustomerEmailExistsException;
+use App\Repository\VideoEntityRepository;
 use App\Service\JsonRequestParserService;
 use App\Service\SessionUserService;
 use App\Service\UpdateSessionCustomerService;
@@ -25,14 +26,19 @@ class CustomerController extends AbstractController
     /** @var UpdateSessionCustomerService */
     private $updateSessionCustomerService;
 
+    /** @var VideoEntityRepository */
+    private $videosRepository;
+
     public function __construct(
         SessionUserService $sessionUserService,
         JsonRequestParserService $jsonRequestParserService,
-        UpdateSessionCustomerService $updateSessionCustomerService
+        UpdateSessionCustomerService $updateSessionCustomerService,
+        VideoEntityRepository $videosRepository
     ) {
         $this->sessionUserService = $sessionUserService;
         $this->jsonRequestParserService = $jsonRequestParserService;
         $this->updateSessionCustomerService = $updateSessionCustomerService;
+        $this->videosRepository = $videosRepository;
     }
 
     /** @Route("/api/customer", methods={"GET"}) */
@@ -65,12 +71,16 @@ class CustomerController extends AbstractController
         return new Response(200);
     }
 
-//    /** @Route("/api/customer/videos", methods={"GET"}) */
-//    public function getCustomersVideos() {
-//        if (!$this->sessionUserService->hasSessionCustomer()) {
-//            return new Response('', 401);
-//        }
-//
-//
-//    }
+    /** @Route("/api/customer/videos", methods={"GET"}) */
+    public function getCustomersVideos()
+    {
+        if (!$this->sessionUserService->hasSessionCustomer()) {
+            return new Response('', 401);
+        }
+        $customer = $this->sessionUserService->getUser()->getUser();
+
+        return new JsonResponse([
+            'videos' => $this->videosRepository->findCustomerVideos($customer->getId())
+        ]);
+    }
 }

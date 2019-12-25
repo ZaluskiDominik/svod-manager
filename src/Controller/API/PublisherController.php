@@ -4,6 +4,7 @@ namespace App\Controller\API;
 
 use App\Entity\PublisherEntity;
 use App\Exception\CustomerEmailExistsException;
+use App\Repository\VideoEntityRepository;
 use App\Service\JsonRequestParserService;
 use App\Service\SessionUserService;
 use App\Service\UpdateSessionPublisherService;
@@ -24,14 +25,19 @@ class PublisherController extends AbstractController
     /** @var UpdateSessionPublisherService */
     private $updateSessionPublisherService;
 
+    /** @var VideoEntityRepository */
+    private $videosRepository;
+
     public function __construct(
         SessionUserService $sessionUserService,
         JsonRequestParserService $jsonRequestParserService,
-        UpdateSessionPublisherService $updateSessionPublisherService
+        UpdateSessionPublisherService $updateSessionPublisherService,
+        VideoEntityRepository $videosRepository
     ) {
         $this->sessionUserService = $sessionUserService;
         $this->jsonRequestParserService = $jsonRequestParserService;
         $this->updateSessionPublisherService = $updateSessionPublisherService;
+        $this->videosRepository = $videosRepository;
     }
 
     /** @Route("/api/publisher", methods={"GET"}) */
@@ -77,6 +83,19 @@ class PublisherController extends AbstractController
 
         return new JsonResponse([
             'videos' => $videos
+        ]);
+    }
+
+    /** @Route("/api/publisher/videos", methods={"GET"}) */
+    public function getPublisherVideos()
+    {
+        if (!$this->sessionUserService->hasSessionPublisher()) {
+            return new Response('', 401);
+        }
+        $publisher = $this->sessionUserService->getUser()->getUser();
+
+        return new JsonResponse([
+            'videos' => $this->videosRepository->findPublisherVideos($publisher->getId())
         ]);
     }
 }

@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web');
+
+.my-videos-grid-view {
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.my-videos-grid-view::after {
+    display: block;
+    content: '';
+    height: 50px;
+}
+
+.my-videos-panel {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 10px;
+    height: 90px;
+    background-color: #eee;
+    border-bottom: 1px solid #dedede;
+}
+
+.my-video-search-wrapper {
+    width: 400px;
+}
+
+.my-videos-grid {
+    box-sizing: border-box;
+    padding: 60px 30px 0 30px;
+    min-height: calc(100vh - 90px - 50px);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    grid-gap: 120px 40px;
+}
+
+.video-item-wrapper {
+    perspective: 600px;
+    height: 260px;
+    max-width: 440px;
+}
+
+.video-item {
+    cursor: pointer;
+    height: 100%;
+    font-family: 'Titillium Web', sans-serif;
+    background-color: transparent;
+    transform: rotateY(40deg);
+    box-shadow: -6px 5px 13px 2px rgba(0, 0, 0, 0.5);
+    transition: all 1s ease;
+    color: transparent;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.video-item img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: 170px;
+    color: black;
+    background-color: #eee;
+}
+
+.video-item:hover {
+    background-color: transparent;
+    transform: rotateY(0);
+    box-shadow: 0 0 36px 2px rgba(0, 0, 0, 0.5);
+    color: black;
+}
+
+.video-item:hover p {
+    background-color: rgba(255, 255, 255, 0.7);
+    text-shadow: 1px 1px 2px #777;
+    border-bottom: 2px solid white;
+}
+
+p.desc {
+    z-index: 2;
+    position: absolute;
+    top: 10px;
+    padding: 8px;
+}

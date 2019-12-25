@@ -21,7 +21,8 @@
     </div>
 
     <div ng-show="tabNr == 1">
-        videos
+        {% set myVideosController = 'publisherMyVideosController' %}
+        {{ include('my-videos.html.twig') }}
     </div>
 
     <div ng-show="tabNr == 2">
@@ -35,6 +36,7 @@
     <script src="{{ asset('js/controller/publisher/publisher-profile-controller.js') }}"></script>
     <script src="{{ asset('js/util/new-subscription-dialog.js') }}"></script>
     <script src="{{ asset('js/controller/publisher/publisher-subscriptions-controller.js') }}"></script>
+    <script src="{{ asset('js/controller/publisher/publisher-my-videos-controller.js') }}"></script>
     <script>
         newSubscriptionDialog.init();
     </script>

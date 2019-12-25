@@ -1,0 +1,28 @@
+<div class="my-videos-page" ng-controller="{{ myVideosController }}">
+    <div ng-show="myVideosView == VideosView.GRID" class="my-videos-grid-view">
+        <div class="my-videos-panel">
+            <div class="input-field my-video-search-wrapper">
+                <i class="material-icons prefix">search</i>
+                <input type="text" id="my-video-search" class="autocomplete" ng-model="videoSearchVal"
+                    ng-blur="filterVideos()">
+                <label for="my-video-search">Search</label>
+            </div>
+        </div>
+        <div class="my-videos-grid">
+            {% verbatim %}
+            <div class="video-item-wrapper" ng-repeat="video in filteredVideos">
+                <div class="video-item">
+                    <img src="{{video.posterUrl}}" alt="&#x1F3A5;">
+                    <p class="desc">{{video.title}}</p>
+                </div>
+            </div>
+            {% endverbatim %}
+        </div>
+    </div>
+
+    <div ng-show="myVideosView == VideosView.DESCRIPTION" class="my-videos-description-view">
+    </div>
+
+    <div ng-show="myVideosView == VideosView.PLAYER" class="my-videos-player-view">
+    </div>
+</div>

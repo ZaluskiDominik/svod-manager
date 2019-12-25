@@ -85,3 +85,54 @@ p.desc {
     top: 10px;
     padding: 8px;
 }
+
+.my-videos-description-view {
+    padding: 15px;
+    box-sizing: border-box;
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.video-description {
+    text-align: justify;
+    font-size: 1.1em;
+}
+
+.video-description img {
+    float: left;
+    width: 360px;
+    height: 260px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-size: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #eee;
+    border: 3px solid #888;
+    border-radius: 3px;
+}
+
+.video-title {
+    letter-spacing: 1px;
+    color: #777;
+    font-size: 36px;
+    padding: 0 0 8px 0;
+    border-bottom: 1px solid #ddd;
+    margin: 0 0 25px 0;
+}
+
+.video-title i {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 32px;
+    margin-right: 20px;
+    color: lightgreen;
+    text-shadow: 1px 1px 2px #777;
+    transition: color 0.6s, text-shadow 0.6s;
+}
+
+.video-title i:hover {
+    color: #13ce66;
+    text-shadow: 1px 1px 5px #555;
+}

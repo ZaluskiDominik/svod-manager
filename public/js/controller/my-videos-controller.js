@@ -28,4 +28,20 @@ app.controller("myVideosController", function ($scope, $controller, $http) {
             }
         });
     };
+
+    $scope.openVideoDescription = function(videoIndex) {
+        $scope.selectedVideo = $scope.filteredVideos[videoIndex];
+        $scope.myVideosView = VideosView.DESCRIPTION;
+    };
+
+    $scope.goBackVideo = function() {
+        switch ($scope.myVideosView) {
+            case VideosView.DESCRIPTION:
+                $scope.myVideosView = VideosView.GRID;
+                break;
+            case VideosView.PLAYER:
+                $scope.myVideosView = VideosView.DESCRIPTION;
+                break;
+        }
+    };
 });

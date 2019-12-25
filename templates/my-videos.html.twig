@@ -4,14 +4,14 @@
             <div class="input-field my-video-search-wrapper">
                 <i class="material-icons prefix">search</i>
                 <input type="text" id="my-video-search" class="autocomplete" ng-model="videoSearchVal"
-                    ng-blur="filterVideos()">
+                       ng-blur="filterVideos()">
                 <label for="my-video-search">Search</label>
             </div>
         </div>
         <div class="my-videos-grid">
             {% verbatim %}
             <div class="video-item-wrapper" ng-repeat="video in filteredVideos">
-                <div class="video-item">
+                <div class="video-item" ng-click="openVideoDescription($index)">
                     <img src="{{video.posterUrl}}" alt="&#x1F3A5;">
                     <p class="desc">{{video.title}}</p>
                 </div>
@@ -21,6 +21,15 @@
     </div>
 
     <div ng-show="myVideosView == VideosView.DESCRIPTION" class="my-videos-description-view">
+        {% verbatim %}
+        <h2 class="video-title">
+            <i class="fas fa-hand-point-left" ng-click="goBackVideo()"></i>{{selectedVideo.title}}
+        </h2>
+        <div class="video-description">
+            <img src="{{selectedVideo.posterUrl}}" alt="&#x1F3A5;">
+            <div ng-bind-html="selectedVideo.description | trust"></div>
+        </div>
+        {% endverbatim %}
     </div>
 
     <div ng-show="myVideosView == VideosView.PLAYER" class="my-videos-player-view">

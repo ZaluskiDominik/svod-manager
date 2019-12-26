@@ -29,8 +29,10 @@ app.controller("customerProfileController", function ($scope, $http, $controller
                 document.querySelector('.profile-user-name').innerHTML = $scope.firstName;
             })
             .catch( (response) => {
+                $scope.emailExistsErr = $scope.apiError = '';
+
                 if (response.status === 409) {
-                    $scope.apiError = response.data.message;
+                    $scope.emailExistsErr = response.data.message;
                 } else {
                     $scope.apiError = "Unknown error happened";
                 }

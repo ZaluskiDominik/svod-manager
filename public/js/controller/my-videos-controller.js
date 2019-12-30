@@ -1,6 +1,6 @@
 'use strict'
 
-app.controller("myVideosController", function ($scope, $controller, $http, $timeout) {
+app.controller("myVideosController", function ($scope, $controller, $http) {
     angular.extend(this, $controller('validateFormController', {$scope: $scope}));
     $scope.filteredVideos = [];
     $scope.videos = [];

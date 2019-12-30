@@ -2,7 +2,12 @@
 
 namespace App\Controller\API;
 
+use App\Entity\VideoEntity;
+use App\Entity\VideoPlayerEntity;
 use App\Repository\VideoEntityRepository;
+use App\Service\JsonRequestParserService;
+use App\Service\SessionUserService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,13 +19,29 @@ class VideoController extends AbstractController
     /** @var VideoEntityRepository */
     private $videoRepository;
 
-    public function __construct(VideoEntityRepository $videoRepository)
-    {
+    /** @var SessionUserService */
+    private $sessionUserService;
+
+    /** @var JsonRequestParserService */
+    private $jsonRequestParserService;
+
+    /** @var EntityManagerInterface */
+    private $em;
+
+    public function __construct(
+        VideoEntityRepository $videoRepository,
+        SessionUserService $sessionUserService,
+        JsonRequestParserService $jsonRequestParserService,
+        EntityManagerInterface $em
+    ) {
         $this->videoRepository = $videoRepository;
+        $this->sessionUserService = $sessionUserService;
+        $this->jsonRequestParserService = $jsonRequestParserService;
+        $this->em = $em;
     }
 
     /** @Route("/api/videos", methods={"GET"}) */
-    public function getVideos(Request $request)
+    public function getVideosAction(Request $request)
     {
         if ($videoId = $request->query->get('videoId')) {
             $video = $this->videoRepository->find($videoId);
@@ -36,5 +57,33 @@ class VideoController extends AbstractController
         return new JsonResponse([
             'videos' => $this->videoRepository->findAll()
         ]);
+    }
+
+    /** @Route("/api/videos", methods={"POST"}) */
+    public function createVideoAction(Request $request)
+    {
+        if (!$this->sessionUserService->hasSessionPublisher()) {
+            return new Response('', 401);
+        }
+        $data = $this->jsonRequestParserService->parse($request);
+
+        if (count($this->videoRepository->findBy([
+            'title' => $data['title'],
+            'publisher' => $this->sessionUserService->getUser()->getUser()
+        ]))) {
+            return new JsonResponse([
+                'message' => 'You already have video with that title'
+            ], 409);
+        }
+
+        $videoPlayer = $this->em->getRepository(VideoPlayerEntity::class)->findBy([
+            'name' => $data['videoPlayer']
+        ])[0];
+        $video = VideoEntity::fromArray($data);
+        $video->setVideoPlayer($videoPlayer);
+
+        return new JsonResponse([
+            'video' => $video
+        ], 201);
     }
 }

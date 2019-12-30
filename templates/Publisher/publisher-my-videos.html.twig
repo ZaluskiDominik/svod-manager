@@ -1,0 +1,74 @@
+{% extends 'my-videos.html.twig' %}
+
+{% block myVideosController %}publisherMyVideosController{% endblock %}
+
+{% block myVideosPanel %}
+    <button class="button button-3d button-highlight button-rounded create-new-video-btn"
+            ng-click="showCreateNewVideoPage()">
+        New video
+    </button>
+{% endblock %}
+
+{% block myVideosViews %}
+    <div ng-show="myVideosView == VideosView.CREATE_NEW" class="new-video-view">
+        <h2 class="video-title">
+            <i class="fas fa-hand-point-left" ng-click="goBackVideo()"></i>Create new video
+        </h2>
+
+        <form novalidate name="newVideoForm" ng-model="newVideoForm" ng-submit="submitNewVideo()">
+            <div class="new-video-flex">
+                <div>
+                    <div class="input-field">
+                        <label for="title">Title</label>
+                        <input id="title" name="title" ng-model="title" type="text" required maxlength="60">
+                        <div ng-if="newVideoForm.title.$touched && newVideoForm.title.$invalid" class="input-err-msg">
+                            Please enter title of video
+                        </div>
+                    </div>
+                    <div class="input-field">
+                        <label for="poster-url">Poster URL</label>
+                        <input id="poster-url" name="posterUrl" ng-model="posterUrl" type="text" required
+                               maxlength="100">
+                        <div ng-if="newVideoForm.posterUrl.$touched && newVideoForm.posterUrl.$invalid"
+                             class="input-err-msg">
+                            Please enter URL of video's poster
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="input-field">
+                        <select id="video-player-select" name="videoPlayer" ng-change="onVideoPlayerSelected()" required
+                                ng-model="selectedVideoPlayerName">
+                            <option value="" disabled selected>Choose video player</option>
+                        </select>
+                        <label>Video player</label>
+                        <div ng-if="newVideoForm.videoPlayer.$touched && newVideoForm.videoPlayer.$invalid"
+                             class="input-err-msg">
+                            Please select video player
+                        </div>
+                    </div>
+                    <div class="input-field">
+                        <label for="embed-code">Embed code</label>
+                        <textarea id="embed-code" name="embedCode" ng-model="embedCode" class="materialize-textarea"
+                                  required maxlength="1000"></textarea>
+                        <div ng-if="newVideoForm.embedCode.$touched && newVideoForm.embedCode.$invalid"
+                             class="input-err-msg">
+                            Please enter video's embed code
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-err-msg" ng-if="videoDescriptionEmptyError">Please enter video's description</div>
+            <label for="video-description">Description</label>
+            <textarea id="video-description"></textarea>
+
+            <div style="text-align: center">
+                <button class="button button-3d button-highlight button-rounded save-new-video-btn" type="submit">
+                    Save video
+                </button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

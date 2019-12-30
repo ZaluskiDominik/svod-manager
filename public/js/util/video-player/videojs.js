@@ -21,8 +21,6 @@ const videoJS = {
     },
 
     play : function() {
-        const player = videojs(this.playerNode.getAttribute('id'));
-        player.src(this._getSources());
         player.play();
     },
 
@@ -52,6 +50,8 @@ const videoJS = {
             scriptNode.onload = this._onSrcLoad.bind(this);
             if (!this._checkIfNodeExists(scriptNode, 'script')) {
                 document.body.appendChild(scriptNode);
+            } else {
+                this._onSrcLoad();
             }
         });
     },
@@ -66,6 +66,8 @@ const videoJS = {
             cssNode.onload = this._onSrcLoad.bind(this);
             if (!this._checkIfNodeExists(cssNode, 'link')) {
                 headNode.appendChild(cssNode);
+            } else {
+                this._onSrcLoad();
             }
         });
     },
@@ -83,6 +85,8 @@ const videoJS = {
 
     _onSrcLoad : function() {
         if (++this.loadedSrcCount === this.jsSrc.length + this.cssSrc.length) {
+            const player = videojs(this.playerNode.getAttribute('id'));
+            player.src(this._getSources());
             this.resolve();
         }
     }

@@ -3,6 +3,7 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/new-subscription-dialog.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/new-video-page.css') }}">
 {% endblock %}
 
 {% set navLogo = '/img/manager.png' %}
@@ -21,8 +22,7 @@
     </div>
 
     <div ng-show="tabNr == 1">
-        {% set myVideosController = 'publisherMyVideosController' %}
-        {{ include('my-videos.html.twig') }}
+        {{ include('Publisher/publisher-my-videos.html.twig') }}
     </div>
 
     <div ng-show="tabNr == 2">
@@ -32,11 +32,15 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="https://cdn.tiny.cloud/1/lbkagxmom1mkkunj9dpyxiztf2km8gbfkfbedqthi6utk4hz/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="{{ asset('js/controller/publisher/publisher-dashboard-controller.js') }}"></script>
     <script src="{{ asset('js/controller/publisher/publisher-profile-controller.js') }}"></script>
     <script src="{{ asset('js/util/new-subscription-dialog.js') }}"></script>
     <script src="{{ asset('js/controller/publisher/publisher-subscriptions-controller.js') }}"></script>
     <script src="{{ asset('js/controller/publisher/publisher-my-videos-controller.js') }}"></script>
+    <script src="{{ asset('js/util/embed-code-input.js') }}"></script>
+    <script src="{{ asset('js/util/video-player-select.js') }}"></script>
+    <script src="{{ asset('js/util/video-description-editor.js') }}"></script>
     <script>
         newSubscriptionDialog.init();
     </script>

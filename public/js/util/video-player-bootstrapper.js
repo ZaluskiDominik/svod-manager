@@ -2,7 +2,8 @@
 
 const videoPlayerBootstrapper = {
     allowedPlayers : [
-        videoJS.name
+        videoJS.name,
+        'YouTube'
     ],
 
     bootstrap : function(player) {
@@ -12,7 +13,7 @@ const videoPlayerBootstrapper = {
 
         switch (player) {
             case videoJS.name:
-                videoJS.bootstrap().then(videoJS.play.bind(videoJS));
+                videoJS.bootstrap();
                 break;
         }
     },

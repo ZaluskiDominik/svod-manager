@@ -9,11 +9,13 @@ const videoJS = {
         "https://vjs.zencdn.net/7.5.5/video-js.css"
     ],
 
-    bootstrap : function() {
+    player: null,
+
+    bootstrap : async function() {
         this._initPlayer();
-        this.loadedSrcCount = 0;
 
         return new Promise((resolve) => {
+            this.loadedSrcCount = 0;
             this.resolve = resolve;
             this._appendCssSources();
             this._appendJsSources();
@@ -21,7 +23,12 @@ const videoJS = {
     },
 
     play : function() {
-        player.play();
+        this.player.play();
+    },
+
+    stop : function() {
+        this.player.pause();
+        this.player.dispose();
     },
 
     _initPlayer() {
@@ -85,8 +92,8 @@ const videoJS = {
 
     _onSrcLoad : function() {
         if (++this.loadedSrcCount === this.jsSrc.length + this.cssSrc.length) {
-            const player = videojs(this.playerNode.getAttribute('id'));
-            player.src(this._getSources());
+            this.player = videojs(this.playerNode.getAttribute('id'));
+            this.player.src(this._getSources());
             this.resolve();
         }
     }

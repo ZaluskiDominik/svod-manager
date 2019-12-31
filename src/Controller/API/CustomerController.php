@@ -64,7 +64,8 @@ class CustomerController extends AbstractController
             $this->updateSessionCustomerService->updateSessionCustomer(CustomerEntity::fromArray($data));
         } catch (CustomerEmailExistsException $e) {
             return new JsonResponse([
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
+                'errorField' => 'email'
             ], 409);
         }
 

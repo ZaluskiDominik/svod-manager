@@ -6,6 +6,10 @@ app.controller("dashboardController", function ($scope, $controller) {
     $scope.tabNr = 0;
 
     $scope.changeTab = function(tabNr) {
+        $scope.$broadcast("dashboardTabChanged", {
+            tabNr : tabNr
+        });
+
         $scope.tabNr = tabNr;
     }
 });

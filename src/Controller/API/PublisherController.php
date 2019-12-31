@@ -3,7 +3,9 @@
 namespace App\Controller\API;
 
 use App\Entity\PublisherEntity;
+use App\Exception\CompanyExistsException;
 use App\Exception\CustomerEmailExistsException;
+use App\Exception\PublisherEmailExistsException;
 use App\Repository\VideoEntityRepository;
 use App\Service\JsonRequestParserService;
 use App\Service\SessionUserService;
@@ -62,9 +64,10 @@ class PublisherController extends AbstractController
 
         try {
             $this->updateSessionPublisherService->updateSessionPublisher(PublisherEntity::fromArray($data));
-        } catch (CustomerEmailExistsException $e) {
+        } catch (PublisherEmailExistsException | CompanyExistsException $e) {
             return new JsonResponse([
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
+                'errorField' => ($e instanceof CompanyExistsException) ? 'company' : 'email'
             ], 409);
         }
 

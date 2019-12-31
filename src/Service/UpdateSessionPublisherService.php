@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\PublisherEntity;
+use App\Exception\CompanyExistsException;
 use App\Exception\PublisherEmailExistsException;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -20,9 +21,17 @@ class UpdateSessionPublisherService
         $this->em = $em;
     }
 
+    /**
+     * @throws CompanyExistsException
+     * @throws PublisherEmailExistsException
+     */
     public function updateSessionPublisher(PublisherEntity $updateData)
     {
         $this->throwExceptionIfPublisherEmailExists($updateData);
+
+        if (!empty($updateData->getCompany()) && $this->checkIfCompanyAlreadyExists($updateData->getCompany())) {
+            throw new CompanyExistsException($updateData->getCompany());
+        }
 
         $sessionPublisher = $this->sessionUserService->getUser()->getUser();
         $sessionPublisher->setPasswordHash($updateData->getPasswordHash() ?? $sessionPublisher->getPasswordHash());
@@ -49,5 +58,14 @@ class UpdateSessionPublisherService
             && $this->em->getRepository(PublisherEntity::class)->findByEmail($updateData->getEmail())) {
             throw new PublisherEmailExistsException($updateData->getEmail());
         }
+    }
+
+    private function checkIfCompanyAlreadyExists(string $company): bool
+    {
+        $queryResult = $this->em->getRepository(PublisherEntity::class)->findBy([
+            'company' => $company
+        ]);
+
+        return $this->sessionUserService->getUser()->getUser()->getCompany() !== $company && count($queryResult) !== 0;
     }
 }

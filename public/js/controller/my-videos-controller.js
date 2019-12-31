@@ -44,6 +44,7 @@ app.controller("myVideosController", function ($scope, $controller, $http) {
                 $scope.myVideosView = VideosView.PLAYER;
                 $scope.selectedVideo.embedCode = response.data.video.embedCode;
                 $scope.selectedVideo.videoPlayer = response.data.video.videoPlayer.name;
+                document.querySelector('.video-player-wrapper').innerHTML = $scope.selectedVideo.embedCode;
                 videoPlayerBootstrapper.bootstrap($scope.selectedVideo.videoPlayer);
             });
     };
@@ -55,7 +56,15 @@ app.controller("myVideosController", function ($scope, $controller, $http) {
                 break;
             case VideosView.PLAYER:
                 $scope.myVideosView = VideosView.DESCRIPTION;
+                videoPlayerBootstrapper.bootstrappedPlayer.stop();
+                videoPlayerBootstrapper.bootstrappedPlayer = null;
                 break;
         }
     };
+
+    $scope.$on('dashboardTabChanged', (e, data) => {
+        if (videoPlayerBootstrapper.bootstrappedPlayer) {
+            $scope.goBackVideo();
+        }
+    });
 });

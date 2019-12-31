@@ -6,6 +6,8 @@ const videoPlayerBootstrapper = {
         'YouTube'
     ],
 
+    bootstrappedPlayer : null,
+
     bootstrap : function(player) {
         if (!player in this.allowedPlayers) {
             throw "Player '" + player + "' is not allowed!";
@@ -13,6 +15,7 @@ const videoPlayerBootstrapper = {
 
         switch (player) {
             case videoJS.name:
+                this.bootstrappedPlayer = videoJS;
                 videoJS.bootstrap();
                 break;
         }

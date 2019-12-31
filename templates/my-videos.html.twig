@@ -42,7 +42,7 @@
             <i class="fas fa-hand-point-left" ng-click="goBackVideo()"></i>{{selectedVideo.title}}
         </h2>
         {% endverbatim %}
-        <div class="video-player-wrapper" ng-bind-html="selectedVideo.embedCode | trust"></div>
+        <div class="video-player-wrapper"></div>
     </div>
 
     {% block myVideosViews %}{% endblock %}

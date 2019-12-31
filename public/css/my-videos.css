@@ -1,0 +1,199 @@
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web');
+
+.my-videos-grid-view {
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.my-videos-grid-view::after {
+    display: block;
+    content: '';
+    height: 50px;
+}
+
+.my-videos-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 10px;
+    height: 90px;
+    background-color: #eee;
+    border-bottom: 1px solid #dedede;
+}
+
+.my-video-search-wrapper {
+    width: 400px;
+}
+
+.my-videos-grid {
+    box-sizing: border-box;
+    padding: 60px 30px 0 30px;
+    min-height: calc(100vh - 90px - 50px);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    grid-gap: 120px 40px;
+}
+
+.video-item-wrapper {
+    perspective: 600px;
+    height: 260px;
+    max-width: 440px;
+}
+
+.video-item {
+    cursor: pointer;
+    height: 100%;
+    font-family: 'Titillium Web', sans-serif;
+    background-color: transparent;
+    transform: rotateY(40deg);
+    box-shadow: -6px 5px 13px 2px rgba(0, 0, 0, 0.5);
+    transition: all 1s ease;
+    color: transparent;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.video-item img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: 170px;
+    color: black;
+    background-color: #eee;
+}
+
+.video-item:hover {
+    background-color: transparent;
+    transform: rotateY(0);
+    box-shadow: 0 0 36px 2px rgba(0, 0, 0, 0.5);
+    color: black;
+}
+
+.video-item:hover p {
+    background-color: rgba(255, 255, 255, 0.7);
+    text-shadow: 1px 1px 2px #777;
+    border-bottom: 2px solid white;
+}
+
+p.desc {
+    z-index: 2;
+    position: absolute;
+    top: 10px;
+    padding: 8px;
+}
+
+.my-videos-description-view {
+    padding: 15px;
+    box-sizing: border-box;
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.video-description {
+    text-align: justify;
+    font-size: 1.1em;
+}
+
+.video-description-poster-wrapper {
+    position: relative;
+    float: left;
+    width: 360px;
+    height: 260px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-size: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #eee;
+    border: 3px solid #888;
+    border-radius: 3px;
+}
+
+.open-video-player-btn {
+    border: none;
+    cursor: pointer;
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background-color: rgba(255, 255, 255, 0);
+    transition: opacity 0.8s, background-color 0.8s, box-shadow 0.8s 0.4s;
+}
+
+.open-video-player-btn::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: '\f144';
+    font-size: 120px;
+    color: #4cb0f9;
+    transition: color 0.6s, 0.4s, text-shadow 0.6s 0.4s;
+}
+
+.open-video-player-btn:hover {
+    opacity: 0.7;
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 36px black inset;
+}
+
+.open-video-player-btn:hover::before {
+    color: #1b9af7;
+    text-shadow: 2px 2px 8px #444;
+}
+.video-description img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.video-title {
+    letter-spacing: 1px;
+    color: #777;
+    font-size: 36px;
+    padding: 0 0 8px 0;
+    border-bottom: 1px solid #ddd;
+    margin: 0 0 25px 0;
+}
+
+.video-title i {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 32px;
+    margin-right: 20px;
+    color: lightgreen;
+    text-shadow: 1px 1px 2px #777;
+    transition: color 0.6s, text-shadow 0.6s;
+}
+
+.video-title i:hover {
+    color: #13ce66;
+    text-shadow: 1px 1px 5px #555;
+}
+
+.my-videos-player-view {
+    max-height: 100vh;
+    overflow-y: auto;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.video-player-wrapper {
+    min-height: calc(100vh - 100px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+video {
+    width: 420px;
+    height: 260px;
+}

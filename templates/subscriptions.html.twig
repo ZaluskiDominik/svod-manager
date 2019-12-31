@@ -30,6 +30,9 @@
                             </span>
                             {% endverbatim %}
                             {% block subscriptionInfo %}{% endblock %}
+                            <span ng-if="{% block showSubPriceIf %}true{% endblock %}">
+                                {% verbatim %}Price: <b class="sub-price">{{sub.price}}&euro;</b>{% endverbatim %}
+                            </span>
                         </div>
                         {% block subscriptionFlex %}{% endblock %}
                     </div>

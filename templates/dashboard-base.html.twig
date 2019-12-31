@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{ asset('css/user-data-form.css') }}">
     <link rel="stylesheet" href="{{ asset('css/user-profile.css') }}">
     <link rel="stylesheet" href="{{ asset('css/subscriptions.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/my-videos.css') }}">
 {% endblock %}
 
 {% block body %}
@@ -28,8 +29,13 @@
     {{ parent() }}
     <script src="{{ asset('js/controller/dashboard-controller.js') }}"></script>
     <script src="{{ asset('js/controller/subscriptions-controller.js') }}"></script>
+    <script src="{{ asset('js/controller/my-videos-controller.js') }}"></script>
     <script src="{{ asset('js/util/user.js') }}"></script>
     <script src="{{ asset('js/util/subscriptions.js') }}"></script>
+    <script src="{{ asset('js/util/videos-view.js') }}"></script>
+    <script src="{{ asset('js/util/autocomplete-search.js') }}"></script>
+    <script src="{{ asset('js/util/video-player/videojs.js') }}"></script>
+    <script src="{{ asset('js/util/video-player-bootstrapper.js') }}"></script>
     <script>
         subscriptions.init();
     </script>

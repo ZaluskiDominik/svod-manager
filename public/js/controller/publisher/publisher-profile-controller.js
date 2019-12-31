@@ -15,8 +15,6 @@ app.controller("publisherProfileController", function ($scope, $http, $controlle
                 $scope.companyWebsite = data.companyWebsite;
                 user.fromJsonObject(data);
                 user.updateAccountBalance(data.accountBalance);
-
-                $scope.validateForm($scope.publisherDataForm);
             })
     };
 
@@ -31,8 +29,14 @@ app.controller("publisherProfileController", function ($scope, $http, $controlle
                 document.querySelector('.profile-user-name').innerHTML = $scope.firstName;
             })
             .catch( (response) => {
+                $scope.apiError = $scope.companyExistsErr = $scope.emailExistsErr = '';
+
                 if (response.status === 409) {
-                    $scope.apiError = response.data.message;
+                    if (response.data.errorField === 'company') {
+                        $scope.companyExistsErr = response.data.message;
+                    } else if (response.data.errorField === 'email') {
+                        $scope.emailExistsErr = response.data.message;
+                    }
                 } else {
                     $scope.apiError = "Unknown error happened";
                 }

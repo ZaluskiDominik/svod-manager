@@ -16,7 +16,7 @@
     </div>
 
     <div ng-show="tabNr == 1">
-        videos
+        {{ include('Customer/customer-my-videos.html.twig') }}
     </div>
 
     <div ng-show="tabNr == 2">
@@ -30,4 +30,5 @@
     <script src="{{ asset('js/controller/customer/customer-profile-controller.js') }}"></script>
     <script src="{{ asset('js/controller/customer/customer-subscriptions-controller.js') }}"></script>
     <script src="{{ asset('js/util/purchase-subscription-dialog.js') }}"></script>
+    <script src="{{ asset('js/controller/customer/customer-my-videos-controller.js') }}"></script>
 {% endblock %}

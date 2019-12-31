@@ -2,15 +2,17 @@
 
 namespace App\Entity;
 
+use App\Common\Serialization\SerializableObjectInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 /**
  * @ORM\Table(name="video_player")
  * @ORM\Entity(repositoryClass="App\Repository\VideoPlayerEntityRepository")
  */
-class VideoPlayerEntity
+class VideoPlayerEntity implements JsonSerializable, SerializableObjectInterface
 {
     /**
      * @ORM\Id()
@@ -33,6 +35,15 @@ class VideoPlayerEntity
      * @ORM\OneToMany(targetEntity="App\Entity\VideoEntity", mappedBy="videoPlayer", orphanRemoval=true)
      */
     private $videos;
+
+    public static function fromArray(array $data)
+    {
+        $player = new self();
+        $player->setName($data['name']);
+        $player->setTemplateEmbedCode($data['templateEmbedCode'] ?? null);
+
+        return $player;
+    }
 
     public function __construct()
     {
@@ -97,5 +108,19 @@ class VideoPlayerEntity
         }
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return $this->toArray();
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'templateEmbedCode' => $this->getTemplateEmbedCode()
+        ];
     }
 }

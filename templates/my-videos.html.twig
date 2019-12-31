@@ -1,0 +1,49 @@
+<div class="my-videos-page" ng-controller="{% block myVideosController %}{% endblock %}">
+    <div ng-show="myVideosView == VideosView.GRID" class="my-videos-grid-view">
+        <div class="my-videos-panel">
+            <div class="input-field my-video-search-wrapper">
+                <i class="material-icons prefix">search</i>
+                <input type="text" id="my-video-search" class="autocomplete" ng-model="videoSearchVal"
+                       ng-blur="filterVideos()">
+                <label for="my-video-search">Search</label>
+            </div>
+            {% block myVideosPanel %}{% endblock %}
+        </div>
+        <div class="my-videos-grid">
+            {% verbatim %}
+            <div class="video-item-wrapper" ng-repeat="video in filteredVideos">
+                <div class="video-item" ng-click="openVideoDescription($index)">
+                    <img src="{{video.posterUrl}}" alt="&#x1F3A5;">
+                    <p class="desc">{{video.title}}</p>
+                </div>
+            </div>
+            {% endverbatim %}
+        </div>
+    </div>
+
+    <div ng-show="myVideosView == VideosView.DESCRIPTION" class="my-videos-description-view">
+        {% verbatim %}
+        <h2 class="video-title">
+            <i class="fas fa-hand-point-left" ng-click="goBackVideo()"></i>{{selectedVideo.title}}
+        </h2>
+        <div class="video-description">
+            <div class="video-description-poster-wrapper">
+                <img src="{{selectedVideo.posterUrl}}" alt="&#x1F3A5;">
+                <button class="open-video-player-btn" ng-click="openVideoPlayer()"></button>
+            </div>
+            <div ng-bind-html="selectedVideo.description | trust"></div>
+        </div>
+        {% endverbatim %}
+    </div>
+
+    <div ng-show="myVideosView == VideosView.PLAYER" class="my-videos-player-view">
+        {% verbatim %}
+        <h2 class="video-title">
+            <i class="fas fa-hand-point-left" ng-click="goBackVideo()"></i>{{selectedVideo.title}}
+        </h2>
+        {% endverbatim %}
+        <div class="video-player-wrapper" ng-bind-html="selectedVideo.embedCode | trust"></div>
+    </div>
+
+    {% block myVideosViews %}{% endblock %}
+</div>

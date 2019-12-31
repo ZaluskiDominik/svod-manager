@@ -23,8 +23,12 @@ app.controller("customerSubscriptionsController", function ($scope, $http, $cont
     };
 
     $scope.openPurchaseDialog = function(subIndex) {
-        purchaseSubDialog.open();
         $scope.subToPurchase = $scope.subscriptions[subIndex];
+        if (user.accountBalance < $scope.subToPurchase.price) {
+            return;
+        }
+
+        purchaseSubDialog.open();
     };
 
     $scope.purchaseSub = function() {
@@ -39,6 +43,8 @@ app.controller("customerSubscriptionsController", function ($scope, $http, $cont
                 const day = (date.getDate() > 9) ? date.getDate() : '0' + date.getDate();
 
                 $scope.subToPurchase.activeTo = date.getFullYear() + '-' + month + '-' + day;
+
+                user.updateAccountBalance(user.accountBalance - $scope.subToPurchase.price);
             });
     };
 

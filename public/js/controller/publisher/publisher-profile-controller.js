@@ -16,6 +16,9 @@ app.controller("publisherProfileController", function ($scope, $http, $controlle
                 user.fromJsonObject(data);
                 user.updateAccountBalance(data.accountBalance);
             })
+            .finally(() => {
+                document.querySelector('.profile-content').style.display = 'block';
+            });
     };
 
     $scope.submitPublisherData = function () {

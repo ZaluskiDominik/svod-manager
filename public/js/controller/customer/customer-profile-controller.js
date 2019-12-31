@@ -14,6 +14,9 @@ app.controller("customerProfileController", function ($scope, $http, $controller
                 user.fromJsonObject(data);
                 user.updateAccountBalance(data.accountBalance);
             })
+            .finally(() => {
+                document.querySelector('.profile-content').style.display = 'block';
+            });
     };
 
     $scope.submitCustomerData = function () {

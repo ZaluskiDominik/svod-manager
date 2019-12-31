@@ -9,7 +9,7 @@ input.ng-touched.ng-invalid {
     border-color: red !important;
 }
 
-input.ng-touched.ng-valid {
+input.ng-valid {
     border-color: limegreen !important;
 }
 

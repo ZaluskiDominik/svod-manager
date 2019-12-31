@@ -67,9 +67,10 @@ class VideoController extends AbstractController
         }
         $data = $this->jsonRequestParserService->parse($request);
 
+        $publisher = $this->sessionUserService->getUser()->getUser();
         if (count($this->videoRepository->findBy([
             'title' => $data['title'],
-            'publisher' => $this->sessionUserService->getUser()->getUser()
+            'publisher' => $publisher
         ]))) {
             return new JsonResponse([
                 'message' => 'You already have video with that title'
@@ -81,6 +82,9 @@ class VideoController extends AbstractController
         ])[0];
         $video = VideoEntity::fromArray($data);
         $video->setVideoPlayer($videoPlayer);
+        $video->setPublisher($publisher);
+        $this->em->persist($video);
+        $this->em->flush();
 
         return new JsonResponse([
             'video' => $video

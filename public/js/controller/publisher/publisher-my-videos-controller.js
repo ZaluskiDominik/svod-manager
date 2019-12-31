@@ -36,6 +36,8 @@ app.controller("publisherMyVideosController", function ($scope, $controller, $ht
     };
 
     $scope.submitNewVideo = function() {
+        $scope.publisherAlreadyHasVideoTitle = $scope.newVideoApiError = '';
+
         let valid = $scope.validateForm($scope.newVideoForm);
 
         $scope.videoDescriptionEmptyError = (videoDescriptionEditor.getTextValue().replace(/\s/g, '') === '');
@@ -49,14 +51,17 @@ app.controller("publisherMyVideosController", function ($scope, $controller, $ht
         data['description'] = videoDescriptionEditor.getHtmlValue();
         data['videoPlayer'] = $scope.selectedVideoPlayerName;
         data['embedCode'] = $scope.embedCode;
-        $http.post('api/video', data)
+
+        $http.post('api/videos', data)
             .then((response) => {
-                $scope.video.push(response.data.video);
+                $scope.videos.push(response.data.video);
                 $scope.myVideosView = VideosView.GRID;
             })
             .catch((response) => {
                 if (response.status === 409) {
                     $scope.publisherAlreadyHasVideoTitle = response.data.message;
+                } else {
+                    $scope.newVideoApiError = 'Unknown error happened';
                 }
             })
     };

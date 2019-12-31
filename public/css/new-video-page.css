@@ -41,7 +41,8 @@
     margin-left: 50px;
 }
 
-.save-new-video-btn {
+.save-new-video-btn-wrapper {
+    text-align: center;
     margin-top: 30px;
     margin-bottom: 20px;
 }
@@ -60,4 +61,10 @@
 .save-new-video-btn:hover::before {
     color: #0662a6;
     text-shadow: 1px 1px 3px #666;
+}
+
+.new-video-api-err {
+    font-size: 17px !important;
+    max-width: none !important;
+    margin-bottom: 10px;
 }

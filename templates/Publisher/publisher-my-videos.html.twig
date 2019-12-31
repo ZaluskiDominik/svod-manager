@@ -21,9 +21,14 @@
                     <div class="input-field">
                         <label for="title">Title</label>
                         <input id="title" name="title" ng-model="title" type="text" required maxlength="60">
-                        <div ng-if="newVideoForm.title.$touched && newVideoForm.title.$invalid" class="input-err-msg">
+                        <div ng-if="newVideoForm.title.$touched && newVideoForm.title.$invalid && !publisherAlreadyHasVideoTitle"
+                             class="input-err-msg">
                             Please enter title of video
                         </div>
+                        {% verbatim %}
+                        <div class="input-err-msg" ng-if="publisherAlreadyHasVideoTitle">{{publisherAlreadyHasVideoTitle}}</div>
+                        {% endverbatim %}
+                        <div></div>
                     </div>
                     <div class="input-field">
                         <label for="poster-url">Poster URL</label>
@@ -64,7 +69,10 @@
             <label for="video-description">Description</label>
             <textarea id="video-description"></textarea>
 
-            <div style="text-align: center">
+            <div class="save-new-video-btn-wrapper">
+                {% verbatim %}
+                <div ng-if="newVideoApiError" class="input-err-msg new-video-api-err">{{newVideoApiError}}</div>
+                {% endverbatim %}
                 <button class="button button-3d button-highlight button-rounded save-new-video-btn" type="submit">
                     Save video
                 </button>

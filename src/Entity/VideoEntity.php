@@ -43,7 +43,7 @@ class VideoEntity implements JsonSerializable, SerializableObjectInterface
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=100, name="poster_url")
+     * @ORM\Column(type="string", length=200, name="poster_url")
      */
     private $posterUrl;
 

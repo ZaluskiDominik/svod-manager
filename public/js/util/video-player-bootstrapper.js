@@ -3,7 +3,7 @@
 const videoPlayerBootstrapper = {
     allowedPlayers : [
         videoJS.name,
-        'YouTube'
+        youTube.name
     ],
 
     bootstrappedPlayer : null,
@@ -17,6 +17,9 @@ const videoPlayerBootstrapper = {
             case videoJS.name:
                 this.bootstrappedPlayer = videoJS;
                 videoJS.bootstrap();
+                break;
+            case youTube.name:
+                this.bootstrappedPlayer = youTube;
                 break;
         }
     },

@@ -28,12 +28,11 @@
                         {% verbatim %}
                         <div class="input-err-msg" ng-if="publisherAlreadyHasVideoTitle">{{publisherAlreadyHasVideoTitle}}</div>
                         {% endverbatim %}
-                        <div></div>
                     </div>
                     <div class="input-field">
                         <label for="poster-url">Poster URL</label>
                         <input id="poster-url" name="posterUrl" ng-model="posterUrl" type="text" required
-                               maxlength="100">
+                               maxlength="200">
                         <div ng-if="newVideoForm.posterUrl.$touched && newVideoForm.posterUrl.$invalid"
                              class="input-err-msg">
                             Please enter URL of video's poster

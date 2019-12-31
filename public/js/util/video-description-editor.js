@@ -4,7 +4,10 @@ const videoDescriptionEditor = {
     init : function() {
         tinymce.init({
             selector : '#video-description',
-            height : 500
+            height : 500,
+            formats : {
+                bold : {inline : 'b' }
+            }
         });
     },
 

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/login-page.css') }}">
+{% endblock %}
+
+{% block body %}
+    <h1>SVOD Manager</h1>
+    <div class="login-types-flex">
+        <a href="/customer-login" class="login-type-wrapper" tabindex="-1">
+{#            <div >#}
+                <img src="{{ asset('img/customer-login.png') }}">
+                <h2>I am customer</h2>
+{#            </div>#}
+        </a>
+        <div class="login-types-separator"></div>
+        <a href="/publisher-login" class="login-type-wrapper" tabindex="-1">
+{#            <div class="login-type-wrapper">#}
+                <img src="{{ asset('img/publisher-login.jpg') }}">
+                <h2>I am publisher</h2>
+{#            </div>#}
+        </a>
+    </div>
+{% endblock %}

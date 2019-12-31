@@ -2,13 +2,14 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('css/login-base.css') }}"></link>
-    <link rel="stylesheet" href="{{ asset('css/components.css') }}"></link>
+    <link rel="stylesheet" href="{{ asset('css/login-base.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components.css') }}">
 {% endblock %}
 
 {% block body %}
     <div class="login-container">
-        <div class="sideImg"></div>
+        <img class="sideImg {% block loginImgClass %}{% endblock %}"
+             src="{% block loginImg %}{% endblock loginImg %}">
         <div class="login-panel-container">
             <div class="login-panel">
                 <div class="thumbur">

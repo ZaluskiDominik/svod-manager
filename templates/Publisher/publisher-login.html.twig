@@ -1,9 +1,21 @@
 {% extends 'login-base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .sideImg {
+            margin-top: -180px;
+        }
+    </style>
+{% endblock %}
+
 {% block loginController %}publisherLoginController{% endblock %}
 {% block loginTitle %}Publisher login{% endblock %}
 {% block signupLink %}
     <a href="/publisher-register">Don't have an account? Sing up now!</a>
 {% endblock %}
+
+{% block loginImg %}{{ asset('img/publisher-login.jpg') }}{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}

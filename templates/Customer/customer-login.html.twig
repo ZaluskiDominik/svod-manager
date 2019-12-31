@@ -1,9 +1,22 @@
 {% extends 'login-base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .sideImg {
+            margin-left: -20px;
+            opacity: 0.15;
+        }
+    </style>
+{% endblock %}
+
 {% block loginController %}customerLoginController{% endblock %}
 {% block loginTitle %}Customer login{% endblock %}
 {% block signupLink %}
     <a href="/customer-register">Don't have an account? Sing up now!</a>
 {% endblock %}
+
+{% block loginImg %}{{ asset('img/customer-login.png') }}{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}

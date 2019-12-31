@@ -17,6 +17,16 @@ class LoginPageController extends AbstractController
         $this->sessionUserService = $sessionUserService;
     }
 
+    /** @Route("/login", methods={"GET"}) */
+    public function loginPageController()
+    {
+        if ($this->sessionUserService->getUser()) {
+            return new RedirectResponse('/dashboard');
+        }
+
+        return $this->render('login-page.html.twig');
+    }
+
     /** @Route("/customer-login", methods={"GET"}) */
     public function customerLoginPageAction()
     {

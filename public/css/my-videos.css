@@ -193,25 +193,47 @@ p.desc {
     align-items: center;
 }
 
-.edit-video-btn {
+.my-videos-description-btns
+{
     cursor: pointer;
     background-color: transparent !important;
     border: none;
-    color: orange;
-    margin-right: 15px;
-    margin-left: -15px;
-    font-size: 30px;
     text-shadow: 1px 1px 2px #777;
     transition: color 0.6s, text-shadow 0.6s;
 }
 
+.my-videos-description-btns:hover {
+    text-shadow: 1px 1px 5px #555;
+}
+
+.edit-video-btn {
+    color: orange;
+    margin-left: -15px;
+    font-size: 30px;
+}
+
 .edit-video-btn:hover {
     color: darkorange;
-    text-shadow: 1px 1px 5px #555;
 }
 
 .edit-video-btn::before {
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     content: '\f303';
+}
+
+.delete-video-btn {
+    color: orangered;
+    margin-right: 15px;
+    font-size: 30px;
+}
+
+.delete-video-btn:hover {
+    color: red;
+}
+
+.delete-video-btn::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 300;
+    content: '\f2ed';
 }

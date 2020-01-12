@@ -11,6 +11,7 @@ const videoPlayerSelect = {
         this.players = players;
         const selectNode = document.querySelector('#video-player-select');
         this.clearPlayersNodes();
+        document.querySelector('#video-player-select option').selected = true;
         players.forEach((player) => {
             const option = document.createElement('option');
             option.setAttribute('value', player.name);

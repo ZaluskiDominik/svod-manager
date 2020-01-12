@@ -10,11 +10,12 @@ app.controller("myVideosController", function ($scope, $controller, $http) {
     $scope.fetchVideos = function (fetchUrl) {
         $http.get(fetchUrl)
             .then((response) => {
-                $scope.filteredVideos = $scope.videos = response.data.videos;
+                $scope.videos = response.data.videos;
                 $scope.videosSearch = new AutocompleteSearch(
                     document.querySelector('#my-video-search'),
                     AutocompleteSearch.transformVideosToData($scope.videos)
                 );
+                $scope.filterVideos();
             });
     };
 

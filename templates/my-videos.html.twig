@@ -24,7 +24,7 @@
     <div ng-show="myVideosView == VideosView.DESCRIPTION" class="my-videos-description-view">
         <h2 class="video-title">
             <i class="fas fa-hand-point-left" ng-click="goBackVideo()"></i>
-            {% block myVideosBtns %}{% endblock %}
+            {% block myVideosDescriptionBtns %}{% endblock %}
             {% verbatim %}
             {{selectedVideo.title}}
             {% endverbatim %}

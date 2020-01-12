@@ -9,14 +9,16 @@
     </button>
 {% endblock %}
 
-{% block myVideosBtns %}
-    <button class="edit-video-btn" ng-click="showEditVideoPage()"></button>
+{% block myVideosDescriptionBtns %}
+    <button class="my-videos-description-btns edit-video-btn" ng-click="showEditVideoPage()"></button>
+    <button class="my-videos-description-btns delete-video-btn" ng-click="deleteVideo()"></button>
 {% endblock %}
 
 {% block myVideosViews %}
     <div ng-show="myVideosView == VideosView.CREATE_NEW || myVideosView == VideosView.EDIT" class="new-video-view">
         <h2 class="video-title">
-            <i class="fas fa-hand-point-left" ng-click="goBackVideo()"></i>Create new video
+            <i class="fas fa-hand-point-left" ng-click="goBackVideo()"></i>
+            {% verbatim %}{{videoCreateEditTitle}}{%endverbatim%}
         </h2>
 
         <form novalidate name="newVideoForm" ng-model="newVideoForm" ng-submit="submitNewVideo()">

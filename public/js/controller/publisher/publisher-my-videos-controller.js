@@ -5,17 +5,29 @@ app.controller("publisherMyVideosController", function ($scope, $controller, $ht
     let parentGoBackVideo = $scope.goBackVideo;
 
     $scope.goBackVideo = function () {
-        if ($scope.myVideosView === VideosView.CREATE_NEW || $scope.myVideosView === VideosView.EDIT) {
+        if ($scope.myVideosView === VideosView.CREATE_NEW) {
             $scope.myVideosView = VideosView.GRID;
+        } else if ($scope.myVideosView === VideosView.EDIT) {
+            $scope.myVideosView = VideosView.DESCRIPTION;
         } else {
             parentGoBackVideo();
         }
     };
 
     $scope.showCreateNewVideoPage = function () {
+        $scope.videoCreateEditTitle = 'Create new video';
         $http.get('api/video/players')
             .then((response) => {
+                $scope.newVideoForm.$setUntouched();
+                $scope.posterUrl = '';
+                document.querySelector('label[for="poster-url"]').classList.remove('active');
+                $scope.title = '';
+                document.querySelector('label[for="title"]').classList.remove('active');
+                videoDescriptionEditor.setHtmlValue('');
                 videoPlayerSelect.setPlayers(response.data.players);
+                $scope.embedCode = '';
+                embedCodeInput.setValue('');
+
                 $scope.myVideosView = VideosView.CREATE_NEW;
                 $scope.selectedVideo = null;
             })
@@ -78,9 +90,9 @@ app.controller("publisherMyVideosController", function ($scope, $controller, $ht
     };
 
     $scope.showEditVideoPage = function () {
+        $scope.videoCreateEditTitle = 'Edit video';
         $http.get('api/video/players')
             .then((response) => {
-                console.log($scope.selectedVideo);
                 videoPlayerSelect.setPlayers(response.data.players);
                 $scope.myVideosView = VideosView.EDIT;
 
@@ -109,6 +121,25 @@ app.controller("publisherMyVideosController", function ($scope, $controller, $ht
         }
 
         return -1;
+    };
+
+    $scope.deleteVideo = function() {
+        $http({
+            url : '/api/videos',
+            method : 'DELETE',
+            data: {
+                id : $scope.selectedVideo.id
+            },
+            headers : {
+                'Content-Type' : 'application/json'
+            }
+        }).then(() => {
+            $scope.videos.splice($scope.findVideoIndexById($scope.videos, $scope.selectedVideo.id), 1);
+            // console.log($scope.filteredVideos);
+            $scope.filteredVideos.splice($scope.findVideoIndexById($scope.filteredVideos, $scope.selectedVideo.id), 1);
+            // console.log($scope.filteredVideos);
+            $scope.myVideosView = VideosView.GRID;
+        });
     };
 
     $scope.fetchVideos('/api/publisher/videos');

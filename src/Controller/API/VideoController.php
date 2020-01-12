@@ -127,4 +127,23 @@ class VideoController extends AbstractController
             'video' => $video
         ], 200);
     }
+
+    /** @Route("/api/videos", methods={"DELETE"}) */
+    public function deleteVideoAction(Request $request)
+    {
+        if (!$this->sessionUserService->hasSessionPublisher()) {
+            return new Response('', 401);
+        }
+        $data = $this->jsonRequestParserService->parse($request);
+
+        $video = $this->videoRepository->find($data['id']);
+        if (!$video) {
+            return new Response('', 404);
+        }
+
+        $this->em->remove($video);
+        $this->em->flush();
+
+        return new Response('', 200);
+    }
 }

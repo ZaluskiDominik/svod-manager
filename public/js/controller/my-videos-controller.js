@@ -42,10 +42,9 @@ app.controller("myVideosController", function ($scope, $controller, $http) {
         })
             .then((response) => {
                 $scope.myVideosView = VideosView.PLAYER;
-                $scope.selectedVideo.embedCode = response.data.video.embedCode;
-                $scope.selectedVideo.videoPlayer = response.data.video.videoPlayer.name;
+                $scope.selectedVideo.videoPlayer = response.data.video.videoPlayer;
                 document.querySelector('.video-player-wrapper').innerHTML = $scope.selectedVideo.embedCode;
-                videoPlayerBootstrapper.bootstrap($scope.selectedVideo.videoPlayer);
+                videoPlayerBootstrapper.bootstrap($scope.selectedVideo.videoPlayer.name);
             });
     };
 

@@ -17,6 +17,10 @@ const videoDescriptionEditor = {
 
     getTextValue : function() {
         return tinymce.activeEditor.getContent({format: 'text'});
+    },
+
+    setHtmlValue : function(value) {
+        tinymce.activeEditor.setContent(value);
     }
 };
 

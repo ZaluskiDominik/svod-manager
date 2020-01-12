@@ -9,8 +9,12 @@
     </button>
 {% endblock %}
 
+{% block myVideosBtns %}
+    <button class="edit-video-btn" ng-click="showEditVideoPage()"></button>
+{% endblock %}
+
 {% block myVideosViews %}
-    <div ng-show="myVideosView == VideosView.CREATE_NEW" class="new-video-view">
+    <div ng-show="myVideosView == VideosView.CREATE_NEW || myVideosView == VideosView.EDIT" class="new-video-view">
         <h2 class="video-title">
             <i class="fas fa-hand-point-left" ng-click="goBackVideo()"></i>Create new video
         </h2>

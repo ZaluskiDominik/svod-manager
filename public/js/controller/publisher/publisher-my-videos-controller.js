@@ -4,29 +4,30 @@ app.controller("publisherMyVideosController", function ($scope, $controller, $ht
     angular.extend(this, $controller('myVideosController', {$scope: $scope}));
     let parentGoBackVideo = $scope.goBackVideo;
 
-    $scope.goBackVideo = function() {
-        if ($scope.myVideosView === VideosView.CREATE_NEW) {
+    $scope.goBackVideo = function () {
+        if ($scope.myVideosView === VideosView.CREATE_NEW || $scope.myVideosView === VideosView.EDIT) {
             $scope.myVideosView = VideosView.GRID;
         } else {
             parentGoBackVideo();
         }
     };
 
-    $scope.showCreateNewVideoPage = function() {
+    $scope.showCreateNewVideoPage = function () {
         $http.get('api/video/players')
             .then((response) => {
                 videoPlayerSelect.setPlayers(response.data.players);
                 $scope.myVideosView = VideosView.CREATE_NEW;
-            });
+                $scope.selectedVideo = null;
+            })
     };
 
-    $scope.onVideoPlayerSelected = function() {
+    $scope.onVideoPlayerSelected = function () {
         $scope.embedCode = $scope.getSelectedPlayer().templateEmbedCode;
         embedCodeInput.setValue($scope.embedCode);
     };
 
-    $scope.getSelectedPlayer = function() {
-        for (let i = 0 ; i < videoPlayerSelect.players.length ; i++) {
+    $scope.getSelectedPlayer = function () {
+        for (let i = 0; i < videoPlayerSelect.players.length; i++) {
             if (videoPlayerSelect.players[i].name === $scope.selectedVideoPlayerName) {
                 return videoPlayerSelect.players[i];
             }
@@ -35,7 +36,7 @@ app.controller("publisherMyVideosController", function ($scope, $controller, $ht
         return null;
     };
 
-    $scope.submitNewVideo = function() {
+    $scope.submitNewVideo = function () {
         $scope.publisherAlreadyHasVideoTitle = $scope.newVideoApiError = '';
 
         let valid = $scope.validateForm($scope.newVideoForm);
@@ -51,10 +52,20 @@ app.controller("publisherMyVideosController", function ($scope, $controller, $ht
         data['description'] = videoDescriptionEditor.getHtmlValue();
         data['videoPlayer'] = $scope.selectedVideoPlayerName;
         data['embedCode'] = $scope.embedCode;
+        data['id'] = ($scope.selectedVideo !== null) ? $scope.selectedVideo.id : null;
 
-        $http.post('api/videos', data)
-            .then((response) => {
-                $scope.videos.push(response.data.video);
+        $http({
+            method : ($scope.myVideosView === VideosView.CREATE_NEW) ? "POST" : "PUT",
+            url : "/api/videos",
+            data : data
+        }).then((response) => {
+                if ($scope.selectedVideo) {
+                    $scope.videos[$scope.findVideoIndexById($scope.videos, data['id'])] = response.data.video;
+                    $scope.filteredVideos[$scope.findVideoIndexById($scope.filteredVideos, data['id'])] =
+                        response.data.video;
+                } else {
+                    $scope.videos.push(response.data.video);
+                }
                 $scope.myVideosView = VideosView.GRID;
             })
             .catch((response) => {
@@ -64,6 +75,40 @@ app.controller("publisherMyVideosController", function ($scope, $controller, $ht
                     $scope.newVideoApiError = 'Unknown error happened';
                 }
             })
+    };
+
+    $scope.showEditVideoPage = function () {
+        $http.get('api/video/players')
+            .then((response) => {
+                console.log($scope.selectedVideo);
+                videoPlayerSelect.setPlayers(response.data.players);
+                $scope.myVideosView = VideosView.EDIT;
+
+                videoPlayerSelect.selectPlayer($scope.selectedVideo.videoPlayer.name);
+                $scope.selectedVideoPlayerName = $scope.selectedVideo.videoPlayer.name;
+                videoPlayerSelect.init();
+
+                $scope.embedCode = $scope.selectedVideo.embedCode;
+                embedCodeInput.setValue($scope.embedCode);
+
+                $scope.title = $scope.selectedVideo.title;
+                document.querySelector('label[for="title"]').classList.add('active');
+
+                $scope.posterUrl = $scope.selectedVideo.posterUrl;
+                document.querySelector('label[for="poster-url"]').classList.add('active');
+
+                videoDescriptionEditor.setHtmlValue($scope.selectedVideo.description);
+            });
+    };
+
+    $scope.findVideoIndexById = function(videos, id) {
+        for (let i = 0 ; i < videos.length ; i++) {
+            if (id === videos[i].id) {
+                return i;
+            }
+        }
+
+        return -1;
     };
 
     $scope.fetchVideos('/api/publisher/videos');

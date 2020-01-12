@@ -22,10 +22,14 @@
     </div>
 
     <div ng-show="myVideosView == VideosView.DESCRIPTION" class="my-videos-description-view">
-        {% verbatim %}
         <h2 class="video-title">
-            <i class="fas fa-hand-point-left" ng-click="goBackVideo()"></i>{{selectedVideo.title}}
+            <i class="fas fa-hand-point-left" ng-click="goBackVideo()"></i>
+            {% block myVideosBtns %}{% endblock %}
+            {% verbatim %}
+            {{selectedVideo.title}}
+            {% endverbatim %}
         </h2>
+        {% verbatim %}
         <div class="video-description">
             <div class="video-description-poster-wrapper">
                 <img src="{{selectedVideo.posterUrl}}" alt="&#x1F3A5;">

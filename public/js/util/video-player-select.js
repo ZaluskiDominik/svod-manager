@@ -25,5 +25,14 @@ const videoPlayerSelect = {
         Array.from(document.querySelectorAll('#video-player-select option:enabled')).forEach((node) => {
             node.parentNode.removeChild(node);
         });
+    },
+
+    selectPlayer : function(playerName) {
+        Array.from(document.querySelectorAll('#video-player-select option')).forEach((elem) => {
+            elem.removeAttribute("selected");
+        });
+
+        document.querySelector('#video-player-select option[value="' + playerName + '"]')
+            .setAttribute("selected", "");
     }
 };

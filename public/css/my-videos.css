@@ -192,3 +192,26 @@ p.desc {
     justify-content: center;
     align-items: center;
 }
+
+.edit-video-btn {
+    cursor: pointer;
+    background-color: transparent !important;
+    border: none;
+    color: orange;
+    margin-right: 15px;
+    margin-left: -15px;
+    font-size: 30px;
+    text-shadow: 1px 1px 2px #777;
+    transition: color 0.6s, text-shadow 0.6s;
+}
+
+.edit-video-btn:hover {
+    color: darkorange;
+    text-shadow: 1px 1px 5px #555;
+}
+
+.edit-video-btn::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: '\f303';
+}

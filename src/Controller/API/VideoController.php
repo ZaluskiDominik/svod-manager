@@ -90,4 +90,41 @@ class VideoController extends AbstractController
             'video' => $video
         ], 201);
     }
+
+    /** @Route("/api/videos", methods={"PUT"}) */
+    public function editVideoAction(Request $request)
+    {
+        if (!$this->sessionUserService->hasSessionPublisher()) {
+            return new Response('', 401);
+        }
+        $data = $this->jsonRequestParserService->parse($request);
+
+        $publisher = $this->sessionUserService->getUser()->getUser();
+        $video = $this->videoRepository->find($data['id']);
+        if (!$video) {
+            return new Response('', 404);
+        }
+
+        if ($video->getTitle() !== $data['title'] && count($this->videoRepository->findBy([
+            'title' => $data['title'],
+            'publisher' => $publisher
+        ]))) {
+            return new JsonResponse([
+                'message' => 'You already have video with that title'
+            ], 409);
+        }
+
+        $videoPlayer = $this->em->getRepository(VideoPlayerEntity::class)->findBy([
+            'name' => $data['videoPlayer']
+        ])[0];
+        $video = VideoEntity::fromArray($data);
+        $video->setVideoPlayer($videoPlayer);
+        $video->setPublisher($publisher);
+        $this->em->merge($video);
+        $this->em->flush();
+
+        return new JsonResponse([
+            'video' => $video
+        ], 200);
+    }
 }

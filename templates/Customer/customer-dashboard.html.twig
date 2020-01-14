@@ -29,6 +29,8 @@
     <script src="{{ asset('js/controller/customer/customer-dashboard-controller.js') }}"></script>
     <script src="{{ asset('js/controller/customer/customer-profile-controller.js') }}"></script>
     <script src="{{ asset('js/controller/customer/customer-subscriptions-controller.js') }}"></script>
-    <script src="{{ asset('js/util/purchase-subscription-dialog.js') }}"></script>
     <script src="{{ asset('js/controller/customer/customer-my-videos-controller.js') }}"></script>
+    <script>
+        const purchaseSubDialog = new ModalDialog('sub-purchase-dialog');
+    </script>
 {% endblock %}

@@ -14,7 +14,7 @@
         <button class="my-videos-description-btns edit-video-btn" ng-click="showEditVideoPage()"></button>
     </div>
     <div style="display: inline-block" aria-label="Delete video" data-balloon-pos="right">
-        <button class="my-videos-description-btns delete-video-btn" ng-click="deleteVideo()"></button>
+        <button class="my-videos-description-btns delete-video-btn" ng-click="showDeleteVideoDialog()"></button>
     </div>
 {% endblock %}
 
@@ -93,4 +93,6 @@
             </div>
         </form>
     </div>
+
+    {{ include('Publisher/delete-video-dialog.html.twig') }}
 {% endblock %}

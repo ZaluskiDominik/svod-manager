@@ -3,12 +3,12 @@
         <h4>Purchase subscription</h4>
         {% verbatim %}
             <p>
-                Are you sure you want to purchase <b>{{subToPurchase.name}} subscription</b>
+                Are you sure you want to purchase <b>{{subToPurchase.name}}</b> subscription
                 from company <b>{{subToPurchase.publisher.company}}</b>?
                 <br>Account balance after purchase:
                 <b class="after-purchase-balance">{{user.accountBalance - subToPurchase.price}}&euro;</b>
             </p>
-            {% endverbatim %}
+        {% endverbatim %}
     </div>
     <div class="modal-footer">
         <a href="#" class="modal-close waves-effect waves-green btn-flat">No</a>

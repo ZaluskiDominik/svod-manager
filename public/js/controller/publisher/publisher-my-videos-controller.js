@@ -77,6 +77,7 @@ app.controller("publisherMyVideosController", function ($scope, $controller, $ht
                         response.data.video;
                 } else {
                     $scope.videos.push(response.data.video);
+                    $scope.filteredVideos.push(response.data.video);
                 }
                 $scope.myVideosView = VideosView.GRID;
             })
@@ -123,6 +124,10 @@ app.controller("publisherMyVideosController", function ($scope, $controller, $ht
         return -1;
     };
 
+    $scope.showDeleteVideoDialog = function() {
+        deleteVideoDialog.open();
+    };
+
     $scope.deleteVideo = function() {
         $http({
             url : '/api/videos',
@@ -135,9 +140,7 @@ app.controller("publisherMyVideosController", function ($scope, $controller, $ht
             }
         }).then(() => {
             $scope.videos.splice($scope.findVideoIndexById($scope.videos, $scope.selectedVideo.id), 1);
-            // console.log($scope.filteredVideos);
             $scope.filteredVideos.splice($scope.findVideoIndexById($scope.filteredVideos, $scope.selectedVideo.id), 1);
-            // console.log($scope.filteredVideos);
             $scope.myVideosView = VideosView.GRID;
         });
     };

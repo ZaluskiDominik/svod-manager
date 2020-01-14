@@ -76,20 +76,25 @@ app.controller("publisherSubscriptionsController", function ($scope, $http, $con
 
     };
 
-    $scope.deleteSub = function(subIndex) {
+    $scope.showDeleteSubDialog = function(subIndex) {
+        $scope.deleteSubIndex = subIndex;
+        deleteSubDialog.open();
+    };
+
+    $scope.deleteSub = function() {
         var req = {
             method : 'DELETE',
             url : '/api/subscription',
             data : {
-                id : $scope.subscriptions[subIndex].id
+                id : $scope.subscriptions[$scope.deleteSubIndex].id
             }
         };
 
         $http(req)
             .then( (response) => {
                 if (response.status === 202) {
-                    $scope.subscriptions.splice(subIndex, 1);
-                    subscriptions.removeSubscriptionNode(subIndex);
+                    $scope.subscriptions.splice($scope.deleteSubIndex, 1);
+                    subscriptions.removeSubscriptionNode($scope.deleteSubIndex);
                 }
             })
     };

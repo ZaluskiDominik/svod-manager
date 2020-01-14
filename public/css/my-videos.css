@@ -90,6 +90,7 @@ p.desc {
     padding: 15px;
     box-sizing: border-box;
     max-height: 100vh;
+    height: 100vh;
     overflow-y: auto;
 }
 

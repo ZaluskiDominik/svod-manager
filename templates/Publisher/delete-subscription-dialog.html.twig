@@ -1,0 +1,14 @@
+<div id="delete-sub-dialog" class="modal">
+    <div class="modal-content">
+        <h4>Delete video</h4>
+        {% verbatim %}
+            <p>
+                Are you sure you want to delete your subscription with name <b>{{subscriptions[deleteSubIndex].name}}</b>?
+            </p>
+        {% endverbatim %}
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="modal-close waves-effect waves-green btn-flat">No</a>
+        <a href="#" class="modal-close waves-effect waves-green btn-flat" ng-click="deleteSub()">Yes</a>
+    </div>
+</div>

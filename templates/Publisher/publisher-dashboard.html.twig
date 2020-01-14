@@ -43,5 +43,7 @@
     <script src="{{ asset('js/util/video-description-editor.js') }}"></script>
     <script>
         newSubscriptionDialog.init();
+        const deleteVideoDialog = new ModalDialog('delete-video-dialog');
+        const deleteSubDialog = new ModalDialog('delete-sub-dialog');
     </script>
 {% endblock %}

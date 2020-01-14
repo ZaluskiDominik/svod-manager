@@ -22,11 +22,12 @@
 {% block subscriptionFlex %}
     <div class="sub-action-icons" ng-if="sub.publisher.id == user.id">
         <div aria-label="Delete subscription" data-balloon-pos="up">
-            <button class="sub-delete-btn" onclick="event.stopPropagation()" ng-click="deleteSub($index)"></button>
+            <button class="sub-delete-btn" onclick="event.stopPropagation()" ng-click="showDeleteSubDialog($index)"></button>
         </div>
     </div>
 {% endblock %}
 
 {% block content %}
     {{ include('Publisher/new-subscription-dialog.html.twig') }}
+    {{ include('Publisher/delete-subscription-dialog.html.twig') }}
 {% endblock %}

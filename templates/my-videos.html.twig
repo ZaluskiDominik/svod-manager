@@ -23,7 +23,9 @@
 
     <div ng-show="myVideosView == VideosView.DESCRIPTION" class="my-videos-description-view">
         <h2 class="video-title">
-            <i class="fas fa-hand-point-left" ng-click="goBackVideo()"></i>
+            <div style="display: inline-block" aria-label="Back to videos" data-balloon-pos="right">
+                <i class="fas fa-hand-point-left" ng-click="goBackVideo()"></i>
+            </div>
             {% block myVideosDescriptionBtns %}{% endblock %}
             {% verbatim %}
             {{selectedVideo.title}}
@@ -31,7 +33,7 @@
         </h2>
         {% verbatim %}
         <div class="video-description">
-            <div class="video-description-poster-wrapper">
+            <div class="video-description-poster-wrapper" aria-label="Play video" data-balloon-pos="down">
                 <img src="{{selectedVideo.posterUrl}}" alt="&#x1F3A5;">
                 <button class="open-video-player-btn" ng-click="openVideoPlayer()"></button>
             </div>
@@ -43,7 +45,10 @@
     <div ng-show="myVideosView == VideosView.PLAYER" class="my-videos-player-view">
         {% verbatim %}
         <h2 class="video-title">
-            <i class="fas fa-hand-point-left" ng-click="goBackVideo()"></i>{{selectedVideo.title}}
+            <div style="display: inline-block" aria-label="Back to description" data-balloon-pos="right">
+                <i class="fas fa-hand-point-left" ng-click="goBackVideo()"></i>
+            </div>
+            {{selectedVideo.title}}
         </h2>
         {% endverbatim %}
         <div class="video-player-wrapper"></div>

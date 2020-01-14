@@ -5,9 +5,13 @@
 {% block showMySubs %}
     Purchased subscriptions
 {% endblock %}
+{% block showMySubsTooltip %}
+    Show only my purchased subscriptions
+{% endblock %}
+
 {% block showSubsRadios %}
-    <label>
-        <br>
+    <br>
+    <label aria-label="Show only subscriptions that I didn't purchase" data-balloon-pos="right">
         <input type="radio" class="with-gap" name="subFilterRadios"
                ng-click="filterSubscriptions('not-purchased-subs')" checked>
         <span>Not purchased subscriptions</span>

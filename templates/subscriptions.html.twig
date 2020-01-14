@@ -1,12 +1,12 @@
 <div class="subscriptions-content" ng-controller="{% block subsController %}{% endblock %}">
     <div class="subscriptions-filters-flex">
         <div class="sub-radios-container">
-            <label>
+            <label aria-label="Show all subscriptions" data-balloon-pos="right">
                 <input type="radio" class="with-gap" name="subFilterRadios"
                        ng-click="filterSubscriptions('all-subs')" checked>
                 <span>All subscriptions</span>
             </label><br>
-            <label>
+            <label aria-label="{% block showMySubsTooltip %}{% endblock %}" data-balloon-pos="right">
                 <input type="radio" class="with-gap" name="subFilterRadios"
                        ng-click="filterSubscriptions('my-subs')">
                 <span>{% block showMySubs %}{% endblock %}</span>

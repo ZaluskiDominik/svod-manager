@@ -5,6 +5,9 @@
 {% block showMySubs %}
     My subscriptions
 {% endblock %}
+{% block showMySubsTooltip %}
+    Show only my subscriptions
+{% endblock %}
 
 {% block subPanelBtns %}
     <button class="button button-3d button-primary button-rounded create-sub-btn" ng-click="openNewSubDialog()">
@@ -18,7 +21,9 @@
 
 {% block subscriptionFlex %}
     <div class="sub-action-icons" ng-if="sub.publisher.id == user.id">
-        <button class="sub-delete-btn" onclick="event.stopPropagation()" ng-click="deleteSub($index)"></button>
+        <div aria-label="Delete subscription" data-balloon-pos="up">
+            <button class="sub-delete-btn" onclick="event.stopPropagation()" ng-click="deleteSub($index)"></button>
+        </div>
     </div>
 {% endblock %}
 

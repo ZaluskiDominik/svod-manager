@@ -10,16 +10,25 @@
 {% endblock %}
 
 {% block myVideosDescriptionBtns %}
-    <button class="my-videos-description-btns edit-video-btn" ng-click="showEditVideoPage()"></button>
-    <button class="my-videos-description-btns delete-video-btn" ng-click="deleteVideo()"></button>
+    <div style="display: inline-block" aria-label="Edit video" data-balloon-pos="right">
+        <button class="my-videos-description-btns edit-video-btn" ng-click="showEditVideoPage()"></button>
+    </div>
+    <div style="display: inline-block" aria-label="Delete video" data-balloon-pos="right">
+        <button class="my-videos-description-btns delete-video-btn" ng-click="deleteVideo()"></button>
+    </div>
 {% endblock %}
 
 {% block myVideosViews %}
     <div ng-show="myVideosView == VideosView.CREATE_NEW || myVideosView == VideosView.EDIT" class="new-video-view">
+        {% verbatim %}
         <h2 class="video-title">
-            <i class="fas fa-hand-point-left" ng-click="goBackVideo()"></i>
-            {% verbatim %}{{videoCreateEditTitle}}{%endverbatim%}
+            <div style="display: inline-block"
+            aria-label="Back to {{ myVideosView == VideosView.CREATE_NEW ? 'video' : 'description' }}" data-balloon-pos="right">
+                <i class="fas fa-hand-point-left" ng-click="goBackVideo()"></i>
+            </div>
+            {{videoCreateEditTitle}}
         </h2>
+        {% endverbatim %}
 
         <form novalidate name="newVideoForm" ng-model="newVideoForm" ng-submit="submitNewVideo()">
             <div class="new-video-flex">

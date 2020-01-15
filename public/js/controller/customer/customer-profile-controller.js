@@ -28,6 +28,12 @@ app.controller("customerProfileController", function ($scope, $http, $controller
         $http.patch('/api/customer', formFieldsToObjectConverter.convert(form))
             .then( () => {
                 document.querySelector('.profile-user-name').innerHTML = $scope.firstName;
+
+                Swal.fire(
+                    'Success',
+                    'Profile has been updated',
+                    'success'
+                );
             })
             .catch( (response) => {
                 $scope.emailExistsErr = $scope.apiError = '';

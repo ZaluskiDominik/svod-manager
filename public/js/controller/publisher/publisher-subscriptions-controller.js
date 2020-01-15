@@ -4,6 +4,7 @@ app.controller("publisherSubscriptionsController", function ($scope, $http, $con
     angular.extend(this, $controller('subscriptionsController', {$scope: $scope}));
 
     $scope.filterSubscriptions = function(filterEnum) {
+        $scope.currentFilter = filterEnum;
         switch (filterEnum)
         {
             case 'my-subs':
@@ -65,6 +66,12 @@ app.controller("publisherSubscriptionsController", function ($scope, $http, $con
             .then( (response) => {
                 newSubscriptionDialog.close();
                 $scope.subscriptions.push(response.data);
+
+                Swal.fire(
+                    'Success',
+                    'Subscription has been created',
+                    'success'
+                );
             })
             .catch( (response) => {
                 if (response.status === 409) {
@@ -91,12 +98,23 @@ app.controller("publisherSubscriptionsController", function ($scope, $http, $con
         };
 
         $http(req)
-            .then( (response) => {
-                if (response.status === 202) {
-                    $scope.subscriptions.splice($scope.deleteSubIndex, 1);
-                    subscriptions.removeSubscriptionNode($scope.deleteSubIndex);
-                }
+            .then(() => {
+                $scope.subscriptions.splice($scope.deleteSubIndex, 1);
+                subscriptions.removeSubscriptionNode($scope.deleteSubIndex);
+
+                Swal.fire(
+                    'Success',
+                    'Subscription has been deleted',
+                    'success'
+                );
             })
+            .catch(() => {
+                Swal.fire(
+                    'Error',
+                    'Something went wrong',
+                    'error'
+                );
+            });
     };
 
     $scope.resetSubDialogVideos();

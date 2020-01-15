@@ -3,11 +3,13 @@
 namespace App\Repository;
 
 use App\Entity\SubscriptionEntity;
+use App\Exception\NotEnoughMoneyException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Exception;
 use PDO;
+use PDOException;
 
 /**
  * @method SubscriptionEntity|null find($id, $lockMode = null, $lockVersion = null)
@@ -73,6 +75,7 @@ class SubscriptionEntityRepository extends ServiceEntityRepository
             ->execute();
     }
 
+    /** @throws NotEnoughMoneyException */
     public function purchaseSubscription(int $subId, int $customerId)
     {
         /** @var PDO $pdo */
@@ -80,7 +83,12 @@ class SubscriptionEntityRepository extends ServiceEntityRepository
         $stmt = $pdo->prepare("CALL purchase_sub(:subId, :customerId)");
         $stmt->bindValue('subId', $subId);
         $stmt->bindValue('customerId', $customerId);
-        $stmt->execute();
+
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            throw new NotEnoughMoneyException();
+        }
     }
 
     private function getFormattedSubsWithInfoIfPurchased(array $subs): array

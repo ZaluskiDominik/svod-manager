@@ -22,7 +22,7 @@ class VideoEntityRepository extends ServiceEntityRepository
     public function findCustomerVideos(int $customerId): array
     {
         return $this->getEntityManager()->createQuery("SELECT
-            v.id, v.title, v.description, v.embedCode, v.posterUrl, p.company
+            v.id, v.title, v.description, v.embedCode, v.posterUrl, p.company AS publisherCompany
             FROM App\Entity\VideoEntity v
             INNER JOIN v.subscriptions s
             INNER JOIN s.purchasedSubscriptions ps
@@ -32,11 +32,5 @@ class VideoEntityRepository extends ServiceEntityRepository
             GROUP BY v.id"
         )->setParameter("customerId", $customerId)
             ->getArrayResult();
-    }
-
-    public function findPublisherVideos(int $publisherId): array
-    {
-        return $this->getEntityManager()->createQuery("SELECT
-            App\Entity\VideoEntity v")->getArrayResult();
     }
 }

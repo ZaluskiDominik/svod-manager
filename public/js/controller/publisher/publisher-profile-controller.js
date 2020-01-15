@@ -30,6 +30,12 @@ app.controller("publisherProfileController", function ($scope, $http, $controlle
         $http.patch('/api/publisher', formFieldsToObjectConverter.convert(form))
             .then( () => {
                 document.querySelector('.profile-user-name').innerHTML = $scope.firstName;
+
+                Swal.fire(
+                    'Success',
+                    'Profile has been updated',
+                    'success'
+                );
             })
             .catch( (response) => {
                 $scope.apiError = $scope.companyExistsErr = $scope.emailExistsErr = '';

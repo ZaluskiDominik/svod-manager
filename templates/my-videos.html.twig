@@ -1,11 +1,17 @@
 <div class="my-videos-page" ng-controller="{% block myVideosController %}{% endblock %}">
     <div ng-show="myVideosView == VideosView.GRID" class="my-videos-grid-view">
         <div class="my-videos-panel">
-            <div class="input-field my-video-search-wrapper">
-                <i class="material-icons prefix">search</i>
-                <input type="text" id="my-video-search" class="autocomplete" ng-model="videoSearchVal"
-                       ng-blur="filterVideos()">
-                <label for="my-video-search">Search</label>
+            <div>
+                <div class="input-field my-video-search-wrapper">
+                    <i class="material-icons prefix">search</i>
+                    <input type="text" id="my-video-search" class="autocomplete" ng-model="videoSearchVal">
+                    <label for="my-video-search">Search</label>
+                </div>
+                <div aria-label="Reset search" data-balloon-pos="down">
+                    <button class="clear-video-filters-btn" ng-click="clearVideoFilters()">
+                        <i class="fas fa-eraser"></i>
+                    </button>
+                </div>
             </div>
             {% block myVideosPanel %}{% endblock %}
         </div>

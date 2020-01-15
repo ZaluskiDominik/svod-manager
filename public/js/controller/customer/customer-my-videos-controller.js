@@ -4,4 +4,8 @@ app.controller("customerMyVideosController", function ($scope, $controller, $htt
     angular.extend(this, $controller('myVideosController', {$scope: $scope}));
 
     $scope.fetchVideos('/api/customer/videos');
+
+    $scope.$on('subscriptionPurchased', () => {
+        $scope.fetchVideos('/api/customer/videos');
+    });
 });

@@ -2,22 +2,11 @@
 
 class AutocompleteSearch
 {
-    constructor(inputNode, data)
+    constructor(inputNode, data, changeCallback)
     {
         this.inputNode = inputNode;
-
-        M.Autocomplete.init(inputNode, {
-            onAutocomplete : () => {
-                inputNode.blur();
-            },
-
-            data : data
-        });
-        inputNode.onkeydown = (e) => {
-            if (e.code === 'Enter') {
-                inputNode.blur();
-            }
-        }
+        this.changeCallback = changeCallback;
+        this.setData(data);
     }
 
     static transformVideosToData(videos)
@@ -32,11 +21,34 @@ class AutocompleteSearch
 
     static composeSearchKey(video)
     {
-        return video.title + ' (' + video.company + ')';
+        return video.title + ' (' + video.publisherCompany + ')';
+    }
+
+    setData(data)
+    {
+        const inputNode = this.inputNode;
+        const changeCallback = this.changeCallback;
+        M.Autocomplete.init(inputNode, {
+            limit : 7,
+            onAutocomplete : changeCallback,
+
+            data : data
+        });
+        inputNode.onkeydown = (e) => {
+            if (e.code === 'Enter') {
+                changeCallback();
+            }
+        };
+        inputNode.onblur = changeCallback;
     }
 
     getValue()
     {
         return this.inputNode.value;
+    }
+
+    setValue(value)
+    {
+        this.inputNode.value = value;
     }
 }

@@ -75,7 +75,7 @@ class PublisherController extends AbstractController
     }
 
     /** @Route("/api/publisher/videos", methods={"GET"}) */
-    public function getSessionPublisherVideos(): Response
+    public function getPublisherVideos(): Response
     {
         if (!$this->sessionUserService->hasSessionPublisher()) {
             return new Response('', 401);
@@ -86,19 +86,6 @@ class PublisherController extends AbstractController
 
         return new JsonResponse([
             'videos' => $videos
-        ]);
-    }
-
-    /** @Route("/api/publisher/videos", methods={"GET"}) */
-    public function getPublisherVideos()
-    {
-        if (!$this->sessionUserService->hasSessionPublisher()) {
-            return new Response('', 401);
-        }
-        $publisher = $this->sessionUserService->getUser()->getUser();
-
-        return new JsonResponse([
-            'videos' => $this->videosRepository->findPublisherVideos($publisher->getId())
         ]);
     }
 }

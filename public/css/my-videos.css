@@ -22,6 +22,11 @@
     border-bottom: 1px solid #dedede;
 }
 
+.my-videos-panel > div:first-child {
+    display: flex;
+    align-items: center;
+}
+
 .my-video-search-wrapper {
     width: 400px;
 }
@@ -237,4 +242,23 @@ p.desc {
     font-family: "Font Awesome 5 Free";
     font-weight: 300;
     content: '\f2ed';
+}
+
+.clear-video-filters-btn {
+    background-color: transparent !important;
+    border: 1px solid lightgray;
+    border-radius: 6px;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    font-size: 21px;
+    color: #4cb0f9;
+    margin-left: 10px;
+    box-shadow: 0 0 4px white inset;
+    transition: box-shadow 0.6s, color 0.6s;
+}
+
+.clear-video-filters-btn:hover {
+    box-shadow: 0 0 4px #ccc inset;
+    color: #1b9af7;
 }

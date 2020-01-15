@@ -3,6 +3,7 @@
 namespace App\Controller\API;
 
 use App\Entity\SubscriptionEntity;
+use App\Exception\NotEnoughMoneyException;
 use App\Repository\SubscriptionEntityRepository;
 use App\Service\JsonRequestParserService;
 use App\Service\SessionUserService;
@@ -84,7 +85,7 @@ class SubscriptionController extends AbstractController
         $data = $this->jsonRequestParserService->parse($request);
         $this->subscriptionRepository->deleteSubscription($data['id']);
 
-        return new Response('', 202);
+        return new Response('', 200);
     }
 
     /** @Route("/api/subscription/purchase", methods={"POST"}) */
@@ -95,7 +96,13 @@ class SubscriptionController extends AbstractController
         }
 
         $data = $this->jsonRequestParserService->parse($request);
-        $this->subscriptionRepository->purchaseSubscription($data['subscriptionId'], $data['customerId']);
+        try {
+            $this->subscriptionRepository->purchaseSubscription($data['subscriptionId'], $data['customerId']);
+        } catch (NotEnoughMoneyException $e) {
+            return new JsonResponse([
+                'message' => $e->getMessage()
+            ], 422);
+        }
 
         return new Response('');
     }

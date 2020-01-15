@@ -71,6 +71,7 @@ app.controller("publisherMyVideosController", function ($scope, $controller, $ht
             url : "/api/videos",
             data : data
         }).then((response) => {
+                $scope.myVideosView = VideosView.GRID;
                 if ($scope.selectedVideo) {
                     $scope.videos[$scope.findVideoIndexById($scope.videos, data['id'])] = response.data.video;
                     $scope.filteredVideos[$scope.findVideoIndexById($scope.filteredVideos, data['id'])] =
@@ -78,8 +79,14 @@ app.controller("publisherMyVideosController", function ($scope, $controller, $ht
                 } else {
                     $scope.videos.push(response.data.video);
                     $scope.filteredVideos.push(response.data.video);
+                    $scope.videosSearch.setData(AutocompleteSearch.transformVideosToData($scope.videos));
+
+                    Swal.fire(
+                        'Success',
+                        'Video has been created',
+                        'success'
+                    );
                 }
-                $scope.myVideosView = VideosView.GRID;
             })
             .catch((response) => {
                 if (response.status === 409) {
@@ -142,6 +149,18 @@ app.controller("publisherMyVideosController", function ($scope, $controller, $ht
             $scope.videos.splice($scope.findVideoIndexById($scope.videos, $scope.selectedVideo.id), 1);
             $scope.filteredVideos.splice($scope.findVideoIndexById($scope.filteredVideos, $scope.selectedVideo.id), 1);
             $scope.myVideosView = VideosView.GRID;
+
+            Swal.fire(
+                'Success',
+                'Video has been deleted',
+                'success'
+            );
+        }).catch(() => {
+            Swal.fire(
+                'Error',
+                'Something went wrong',
+                'error'
+            );
         });
     };
 

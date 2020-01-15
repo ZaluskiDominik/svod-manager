@@ -1,6 +1,6 @@
 'use strict'
 
-app.controller("myVideosController", function ($scope, $controller, $http) {
+app.controller("myVideosController", function ($scope, $controller, $http, $timeout) {
     angular.extend(this, $controller('validateFormController', {$scope: $scope}));
     $scope.filteredVideos = [];
     $scope.videos = [];
@@ -13,7 +13,10 @@ app.controller("myVideosController", function ($scope, $controller, $http) {
                 $scope.videos = response.data.videos;
                 $scope.videosSearch = new AutocompleteSearch(
                     document.querySelector('#my-video-search'),
-                    AutocompleteSearch.transformVideosToData($scope.videos)
+                    AutocompleteSearch.transformVideosToData($scope.videos),
+                    () => {
+                        $timeout($scope.filterVideos);
+                    }
                 );
                 $scope.filterVideos();
             });
@@ -24,10 +27,15 @@ app.controller("myVideosController", function ($scope, $controller, $http) {
 
         $scope.filteredVideos = [];
         $scope.videos.forEach((video) => {
-            if (AutocompleteSearch.composeSearchKey(video).indexOf(pattern) !== -1) {
+            if (AutocompleteSearch.composeSearchKey(video).toUpperCase().indexOf(pattern.toUpperCase()) !== -1) {
                 $scope.filteredVideos.push(video);
             }
         });
+    };
+
+    $scope.clearVideoFilters = function() {
+        $scope.videosSearch.setValue('');
+        $scope.filterVideos();
     };
 
     $scope.openVideoDescription = function (videoIndex) {

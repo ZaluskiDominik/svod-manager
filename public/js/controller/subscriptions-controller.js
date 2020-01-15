@@ -3,6 +3,7 @@
 app.controller("subscriptionsController", function ($scope, $controller, $http) {
     angular.extend(this, $controller('validateFormController', {$scope: $scope}));
     $scope.subscriptions = [];
+    $scope.currentFilter = 'all-subs';
 
     $scope.fetchSubscriptions = function(getParams = {}) {
         $scope.user = user;
@@ -11,7 +12,7 @@ app.controller("subscriptionsController", function ($scope, $controller, $http) 
             method: "GET",
             params: getParams
         })
-            .then( (response) => {
+            .then((response) => {
                 $scope.subscriptions = response.data;
             });
     };

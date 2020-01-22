@@ -1,7 +1,7 @@
 version: '3'
 services:
   web:
-    build: 
+    build:
       context: docker/web
     working_dir: /var/www
     container_name: web
@@ -9,11 +9,13 @@ services:
       - 80:80
     volumes:
       - .:/var/www
-    command: bash -c "composer -qn install && php -S 0.0.0.0:80 -t public 2>/dev/null"
+    command: bash -c "composer -qn install && cat src/cron/crontab >> /etc/crontab && cat docker/web/php.ini.dist >> /etc/php/7.3/cli/php.ini && echo xdebug.remote_host=`ip route | awk '/default/ { print $$3 }'` >> /etc/php/7.3/cli/php.ini && cron && php -S 0.0.0.0:80 -t public"
     depends_on:
       - mariadb
       - mail
-  
+      - rabbit
+      - consumers
+
   mariadb:
     image: mariadb
     container_name: mariadb
@@ -30,7 +32,7 @@ services:
     image: schickling/mailcatcher
     ports:
       - 1080:1080
-  
+
   rabbit:
     container_name: rabbit
     image: rabbitmq:3.7-management
@@ -40,8 +42,15 @@ services:
     volumes:
       - rabbit_data:/var/lib/rabbitmq
 
-  # consumer:
-    # conta
+  consumers:
+    build:
+      context: docker/web
+    working_dir: /var/www
+    container_name: consumers
+    volumes:
+      - .:/var/www
+    command: bash -c "composer -qn install && bin/console app:workers:run && while true; do sleep 1; done"
+
 volumes:
   db_data:
   rabbit_data:

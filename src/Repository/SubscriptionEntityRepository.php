@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Common\Event\EventQueue;
+use App\Common\Event\EventSender;
 use App\Entity\SubscriptionEntity;
 use App\Exception\NotEnoughMoneyException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -19,9 +21,13 @@ use PDOException;
  */
 class SubscriptionEntityRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    /** @var EventSender */
+    private $eventSender;
+
+    public function __construct(ManagerRegistry $registry, EventSender $eventSender)
     {
         parent::__construct($registry, SubscriptionEntity::class);
+        $this->eventSender = $eventSender;
     }
 
     public function createSubscription(SubscriptionEntity $subscription)
@@ -89,6 +95,11 @@ class SubscriptionEntityRepository extends ServiceEntityRepository
         } catch (PDOException $e) {
             throw new NotEnoughMoneyException();
         }
+
+        $this->eventSender->send(EventQueue::SUBSCRIPTION, [
+            'subscriptionId' => $subId,
+            'customerId' => $customerId
+        ]);
     }
 
     private function getFormattedSubsWithInfoIfPurchased(array $subs): array

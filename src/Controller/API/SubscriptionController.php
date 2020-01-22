@@ -96,6 +96,7 @@ class SubscriptionController extends AbstractController
         }
 
         $data = $this->jsonRequestParserService->parse($request);
+
         try {
             $this->subscriptionRepository->purchaseSubscription($data['subscriptionId'], $data['customerId']);
         } catch (NotEnoughMoneyException $e) {

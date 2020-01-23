@@ -6,7 +6,7 @@
                 Are you sure you want to purchase <b>{{subToPurchase.name}}</b> subscription
                 from company <b>{{subToPurchase.publisher.company}}</b>?
                 <br>Account balance after purchase:
-                <b class="after-purchase-balance">{{user.accountBalance - subToPurchase.price}}&euro;</b>
+                <b class="after-purchase-balance">{{Math.round((user.accountBalance - subToPurchase.price)*100) / 100}}&euro;</b>
             </p>
         {% endverbatim %}
     </div>

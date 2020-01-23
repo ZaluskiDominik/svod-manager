@@ -23,6 +23,7 @@ app.controller("customerSubscriptionsController", function ($scope, $rootScope, 
     };
 
     $scope.openPurchaseDialog = function (subIndex) {
+        $scope.Math = Math;
         $scope.subToPurchase = $scope.subscriptions[subIndex];
         if (user.accountBalance < $scope.subToPurchase.price) {
             return;

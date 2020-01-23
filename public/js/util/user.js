@@ -9,7 +9,7 @@ let user = {
     },
 
     updateAccountBalance : function(value) {
-        this.accountBalance = value;
-        document.querySelector(".account-balance-val").innerHTML = value;
+        this.accountBalance = Math.round(value * 100) / 100;
+        document.querySelector(".account-balance-val").innerHTML = this.accountBalance;
     }
 };

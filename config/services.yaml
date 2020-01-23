@@ -25,3 +25,15 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    MailService:
+        alias: 'App\Service\MailService'
+        public: true
+
+    EventSender:
+        alias: 'App\Common\Event\EventSender'
+        public: true
+
+    PurchasedSubscriptionRepository:
+      alias: 'App\Repository\PurchasedSubscriptionEntityRepository'
+      public: true

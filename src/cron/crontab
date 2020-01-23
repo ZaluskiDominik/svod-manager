@@ -1,1 +1,1 @@
-* * * * * root /var/www/bin/console app:job:terminate-subscriptions
+0 1 * * * root /var/www/bin/console app:job:terminate-subscriptions

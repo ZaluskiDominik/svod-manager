@@ -32,13 +32,14 @@ class EventSender
         $this->connection->close();
     }
 
-    public function send(string $queue, array $data)
+    public function send(EventExchange $exchange, AbstractEvent $event)
     {
-        $this->channel->queue_declare($queue, false, true, false, false);
+        $this->channel->exchange_declare($exchange->getName(), $exchange->getType(),false, true, false);
 
-        $msg = new AMQPMessage(json_encode($data), [
+        $eventWrapper = new EventWrapper(get_class($event), json_encode($event));
+        $msg = new AMQPMessage(json_encode($eventWrapper), [
             'delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT
         ]);
-        $this->channel->basic_publish($msg, '', $queue);
+        $this->channel->basic_publish($msg, $exchange->getName(), $eventWrapper->getEventClass());
     }
 }

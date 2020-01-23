@@ -6,33 +6,32 @@ use App\Exception\UndefinedEventQueueException;
 
 class EventQueue
 {
-    public const SUBSCRIPTION = 'subscription';
-    public const MAIL = 'mail';
+    public const SUBSCRIPTIONS = 'subscriptions';
+    public const MAILS = 'mails';
 
     private const ALLOWED_QUEUES = [
-        self::SUBSCRIPTION,
-        self::MAIL
+        self::SUBSCRIPTIONS,
+        self::MAILS
     ];
 
     /** @var string */
-    private $queue;
+    private $name;
 
-    public function __construct(string $queue)
+    public function __construct(string $name)
     {
-        $this->setQueue($queue);
+        $this->name = $name;
     }
 
-    public function getQueue(): string
+    public function getName(): string
     {
-        return $this->queue;
+        return $this->name;
     }
 
-    public function setQueue(string $queue): void
+    public function setName(string $name): void
     {
-        if (!in_array($queue, self::ALLOWED_QUEUES)) {
-            throw new UndefinedEventQueueException($queue);
+        if (!in_array($name, self::ALLOWED_QUEUES)) {
+            throw new UndefinedEventQueueException($name);
         }
-
-        $this->queue = $queue;
+        $this->name = $name;
     }
 }

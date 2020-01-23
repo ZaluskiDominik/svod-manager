@@ -2,8 +2,9 @@
 
 namespace App\Repository;
 
-use App\Common\Event\EventQueue;
+use App\Common\Event\EventExchange;
 use App\Common\Event\EventSender;
+use App\Common\Event\SubscriptionPurchasedEvent;
 use App\Entity\SubscriptionEntity;
 use App\Exception\NotEnoughMoneyException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -96,10 +97,10 @@ class SubscriptionEntityRepository extends ServiceEntityRepository
             throw new NotEnoughMoneyException();
         }
 
-        $this->eventSender->send(EventQueue::SUBSCRIPTION, [
-            'subscriptionId' => $subId,
-            'customerId' => $customerId
-        ]);
+        $this->eventSender->send(
+            new EventExchange(EventExchange::SUBSCRIPTIONS),
+            new SubscriptionPurchasedEvent($subId, $customerId)
+        );
     }
 
     private function getFormattedSubsWithInfoIfPurchased(array $subs): array
